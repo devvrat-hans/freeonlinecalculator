@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online DoorDash tip calculator. Calculate appropriate tips for food delivery services including DoorDash, Uber Eats, and Grubhub.">
+    <meta name="keywords" content="doordash tip calculator, food delivery tip, uber eats tip, grubhub tip, delivery driver gratuity, free online calculator">
+    <title>DoorDash Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0 20px;
+        }
+        .tip-option {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .tip-option:hover {
+            background-color: #e9f2fb;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+        }
+        .option-item input {
+            width: auto;
+            margin-right: 8px;
+        }
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            margin: 10px 0;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #0066cc;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #0066cc;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DoorDash Tip Calculator</h1>
+        <p>Calculate appropriate tips for food delivery services including DoorDash, Uber Eats, and Grubhub</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Delivery Tip</h2>
+            <form id="tipForm">
+                <div class="form-group">
+                    <label for="orderTotal">Order Total ($):</label>
+                    <input type="number" id="orderTotal" name="orderTotal" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deliveryDistance">Delivery Distance (miles):</label>
+                    <input type="number" id="deliveryDistance" name="deliveryDistance" min="0.1" step="0.1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Order Complexity Factors:</label>
+                    <div class="option-grid">
+                        <div class="option-item">
+                            <input type="checkbox" id="largeOrder" name="largeOrder">
+                            <label for="largeOrder">Large Order</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="badWeather" name="badWeather">
+                            <label for="badWeather">Bad Weather</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="difficultLocation" name="difficultLocation">
+                            <label for="difficultLocation">Hard-to-find Location</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="peakHours" name="peakHours">
+                            <label for="peakHours">Peak Hours</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipPercent">Tip Percentage: <span id="tipPercentValue">15</span>%</label>
+                    <input type="range" min="0" max="30" value="15" class="slider" id="tipPercent">
+                </div>
+                
+                <div class="form-group">
+                    <label>Quick Select Tip:</label>
+                    <div class="tip-options">
+                        <div class="tip-option" onclick="selectTip(10)" id="tip-10">10%</div>
+                        <div class="tip-option" onclick="selectTip(15)" id="tip-15">15%</div>
+                        <div class="tip-option" onclick="selectTip(18)" id="tip-18">18%</div>
+                        <div class="tip-option" onclick="selectTip(20)" id="tip-20">20%</div>
+                        <div class="tip-option" onclick="selectTip(25)" id="tip-25">25%</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="minFlatTip">Minimum Flat Tip ($):</label>
+                    <input type="number" id="minFlatTip" name="minFlatTip" min="0" step="0.5" value="3">
+                </div>
+                
+                <button type="button" onclick="calculateTip()">Calculate Tip</button>
+            </form>
+            
+            <div id="result" class="result">
+                <h3>Tip Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Order Total:</th>
+                        <td>$<span id="resultOrderTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Base Tip (by %):</th>
+                        <td>$<span id="resultBaseTip"></span> (<span id="resultTipPercent"></span>%)</td>
+                    </tr>
+                    <tr>
+                        <th>Distance/Complexity Adjustment:</th>
+                        <td>$<span id="resultAdjustment"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Recommended Tip:</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Total with Tip:</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+                
+                <div style="margin-top: 15px; font-style: italic;">
+                    <p>This recommended tip takes into account order total, delivery distance, and any selected order complexity factors.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>How DoorDash and Delivery Tipping Works</h2>
+            <p>Tipping for food delivery services like DoorDash, Uber Eats, and Grubhub is important as drivers rely on tips for a significant portion of their income. Unlike restaurant servers, delivery drivers have additional expenses like gas and vehicle maintenance.</p>
+            <p>The standard tipping range for food delivery is typically 15-20% of the order total or a minimum of $3-5, whichever is higher. However, several factors should influence your tip amount:</p>
+        </section>
+        
+        <section>
+            <h2>Factors to Consider When Tipping Delivery Drivers</h2>
+            <ul>
+                <li><strong>Delivery Distance:</strong> Longer distances mean more time and gas expenses for the driver</li>
+                <li><strong>Order Size and Weight:</strong> Larger orders require more effort to transport</li>
+                <li><strong>Weather Conditions:</strong> Adverse weather makes delivery more challenging and time-consuming</li>
+                <li><strong>Delivery Difficulty:</strong> Apartment buildings, gated communities, or office complexes may require extra effort</li>
+                <li><strong>Timing:</strong> Rush hour, late-night, or holiday deliveries often warrant higher tips</li>
+                <li><strong>Service Quality:</strong> Promptness, communication, and care with your order</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>DoorDash Tipping Guidelines</h2>
+            <p>For the best practice when tipping on DoorDash and similar services:</p>
+            <ul>
+                <li><strong>Minimum Tip:</strong> $3-5 regardless of order size (small orders still require the same delivery effort)</li>
+                <li><strong>Standard Percentage:</strong> 15-20% of your order total for normal circumstances</li>
+                <li><strong>Distance Consideration:</strong> Add $1-2 for each mile beyond 3-5 miles</li>
+                <li><strong>Complexity Add-on:</strong> Consider extra for apartments, bad weather, or large orders</li>
+                <li><strong>Exceptional Service:</strong> Additional tip for drivers who go above and beyond</li>
+            </ul>
+            <p>Remember that tips entered before delivery can be adjusted afterward in most apps if you want to increase the amount based on service quality.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 15; // Default to 15%
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to update the tip slider display
+        document.getElementById('tipPercent').oninput = function() {
+            selectedTipPercent = parseInt(this.value);
+            document.getElementById('tipPercentValue').textContent = selectedTipPercent;
+            
+            // Update the tip option buttons
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Check if the value matches one of our preset buttons
+            if ([10, 15, 18, 20, 25].includes(selectedTipPercent)) {
+                document.getElementById('tip-' + selectedTipPercent).classList.add('selected');
+            }
+        };
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('tip-' + percent).classList.add('selected');
+            
+            // Update the tip slider and selected percentage
+            document.getElementById('tipPercent').value = percent;
+            document.getElementById('tipPercentValue').textContent = percent;
+            selectedTipPercent = percent;
+        }
+        
+        // Initialize the first tip option as selected
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('tip-15').classList.add('selected');
+        });
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const orderTotal = parseFloat(document.getElementById('orderTotal').value);
+            const deliveryDistance = parseFloat(document.getElementById('deliveryDistance').value);
+            const minFlatTip = parseFloat(document.getElementById('minFlatTip').value) || 3;
+            
+            // Get checkbox values
+            const largeOrder = document.getElementById('largeOrder').checked;
+            const badWeather = document.getElementById('badWeather').checked;
+            const difficultLocation = document.getElementById('difficultLocation').checked;
+            const peakHours = document.getElementById('peakHours').checked;
+            
+            // Validate inputs
+            if (isNaN(orderTotal) || orderTotal <= 0) {
+                alert("Please enter a valid order total.");
+                return;
+            }
+            
+            if (isNaN(deliveryDistance) || deliveryDistance <= 0) {
+                alert("Please enter a valid delivery distance.");
+                return;
+            }
+            
+            // Calculate base tip amount
+            let baseTip = orderTotal * (selectedTipPercent / 100);
+            
+            // Calculate adjustments based on distance and complexity
+            let adjustment = 0;
+            
+            // Distance adjustment
+            if (deliveryDistance > 5) {
+                adjustment += (deliveryDistance - 5) * 1.5; // $1.50 per mile beyond 5 miles
+            } else if (deliveryDistance > 3) {
+                adjustment += (deliveryDistance - 3) * 1; // $1 per mile between 3-5 miles
+            }
+            
+            // Complexity adjustments
+            if (largeOrder) adjustment += 2;
+            if (badWeather) adjustment += 3;
+            if (difficultLocation) adjustment += 2;
+            if (peakHours) adjustment += 1.5;
+            
+            // Calculate recommended tip (apply minimum flat tip if necessary)
+            const calculatedTip = baseTip + adjustment;
+            const recommendedTip = Math.max(calculatedTip, minFlatTip);
+            
+            // Calculate total with tip
+            const totalAmount = orderTotal + recommendedTip;
+            
+            // Display results
+            document.getElementById('resultOrderTotal').textContent = formatMoney(orderTotal);
+            document.getElementById('resultBaseTip').textContent = formatMoney(baseTip);
+            document.getElementById('resultTipPercent').textContent = selectedTipPercent;
+            document.getElementById('resultAdjustment').textContent = formatMoney(adjustment);
+            document.getElementById('resultTipAmount').textContent = formatMoney(recommendedTip);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

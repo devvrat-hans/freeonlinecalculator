@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online hotel service tip calculator. Calculate appropriate tips for hotel staff including housekeeping, bellhops, concierge, and room service.">
+    <meta name="keywords" content="hotel tip calculator, hotel staff gratuity, bellhop tip, housekeeping tip, concierge gratuity, room service tip, free online calculator">
+    <title>Hotel Service Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        .tab-container {
+            margin-top: 20px;
+        }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            border-radius: 5px 5px 0 0;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 10px 16px;
+            transition: 0.3s;
+            color: #333;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #0066cc;
+            color: white;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            animation: fadeEffect 1s;
+        }
+        @keyframes fadeEffect {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .tip-recommendation {
+            background-color: #f0f7ff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border-left: 4px solid #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hotel Service Tip Calculator</h1>
+        <p>Calculate appropriate tips for hotel staff including housekeeping, bellhops, concierge, and room service</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Hotel Staff Tips</h2>
+            
+            <div class="tab">
+                <button class="tablinks active" onclick="openTipTab(event, 'housekeeping')">Housekeeping</button>
+                <button class="tablinks" onclick="openTipTab(event, 'bellhop')">Bellhop/Porter</button>
+                <button class="tablinks" onclick="openTipTab(event, 'concierge')">Concierge</button>
+                <button class="tablinks" onclick="openTipTab(event, 'roomService')">Room Service</button>
+                <button class="tablinks" onclick="openTipTab(event, 'valet')">Valet</button>
+            </div>
+            
+            <!-- Housekeeping Tab -->
+            <div id="housekeeping" class="tabcontent" style="display: block;">
+                <form id="housekeepingForm">
+                    <div class="tip-recommendation">
+                        <strong>Recommendation:</strong> $2-5 per night, or more for luxury hotels and larger rooms/suites.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hotelType">Hotel Type:</label>
+                        <select id="hotelType" name="hotelType">
+                            <option value="budget">Budget/Economy</option>
+                            <option value="standard" selected>Standard/Mid-range</option>
+                            <option value="luxury">Luxury/Resort</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="stayLength">Length of Stay (nights):</label>
+                        <input type="number" id="stayLength" name="stayLength" min="1" value="3">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="roomType">Room Type:</label>
+                        <select id="roomType" name="roomType">
+                            <option value="standard" selected>Standard Room</option>
+                            <option value="suite">Suite</option>
+                            <option value="family">Family Room/Multi-bedroom</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="roomOccupancy">Number of Guests:</label>
+                        <input type="number" id="roomOccupancy" name="roomOccupancy" min="1" max="10" value="2">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cleaningQuality">Cleaning Quality:</label>
+                        <select id="cleaningQuality" name="cleaningQuality">
+                            <option value="standard">Standard</option>
+                            <option value="excellent" selected>Excellent</option>
+                            <option value="exceptional">Exceptional (special requests handled)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customAmount">Custom Amount Per Night ($):</label>
+                        <input type="number" id="customAmount" name="customAmount" min="0" step="0.5" placeholder="Enter custom amount">
+                    </div>
+                    
+                    <button type="button" onclick="calculateHousekeepingTip()">Calculate Tip</button>
+                </form>
+                
+                <div id="housekeepingResult" class="result">
+                    <h3>Housekeeping Tip Calculation</h3>
+                    <table class="result-table">
+                        <tr>
+                            <th>Recommended Tip per Night:</th>
+                            <td>$<span id="perNightTip"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Total for Your Stay:</th>
+                            <td>$<span id="totalHousekeepingTip"></span></td>
+                        </tr>
+                    </table>
+                    <p id="housekeepingNote" style="margin-top: 15px; font-style: italic;"></p>
+                </div>
+            </div>
+            
+            <!-- Bellhop Tab -->
+            <div id="bellhop" class="tabcontent">
+                <form id="bellhopForm">
+                    <div class="tip-recommendation">
+                        <strong>Recommendation:</strong> $1-2 per bag, minimum $5 for assistance with multiple items.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bagCount">Number of Bags/Items:</label>
+                        <input type="number" id="bagCount" name="bagCount" min="1" value="2">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hotelTypeBellhop">Hotel Type:</label>
+                        <select id="hotelTypeBellhop" name="hotelTypeBellhop">
+                            <option value="budget">Budget/Economy</option>
+                            <option value="standard" selected>Standard/Mid-range</option>
+                            <option value="luxury">Luxury/Resort</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="additionalHelp">Additional Help Provided:</label>
+                        <select id="additionalHelp" name="additionalHelp">
+                            <option value="none">None (just carrying bags)</option>
+                            <option value="moderate" selected>Some (room features, ice, etc.)</option>
+                            <option value="extensive">Extensive (special requests, detailed assistance)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customBellhopAmount">Custom Total Amount ($):</label>
+                        <input type="number" id="customBellhopAmount" name="customBellhopAmount" min="0" step="1" placeholder="Enter custom amount">
+                    </div>
+                    
+                    <button type="button" onclick="calculateBellhopTip()">Calculate Tip</button>
+                </form>
+                
+                <div id="bellhopResult" class="result">
+                    <h3>Bellhop/Porter Tip Calculation</h3>
+                    <table class="result-table">
+                        <tr>
+                            <th>Recommended Tip per Bag:</th>
+                            <td>$<span id="perBagTip"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Recommended Total Tip:</th>
+                            <td>$<span id="totalBellhopTip"></span></td>
+                        </tr>
+                    </table>
+                    <p id="bellhopNote" style="margin-top: 15px; font-style: italic;"></p>
+                </div>
+            </div>
+            
+            <!-- Concierge Tab -->
+            <div id="concierge" class="tabcontent">
+                <form id="conciergeForm">
+                    <div class="tip-recommendation">
+                        <strong>Recommendation:</strong> $5-20 depending on the complexity of service and whether reservations were made.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="conciergeService">Type of Service:</label>
+                        <select id="conciergeService" name="conciergeService">
+                            <option value="directions">Directions or Basic Information</option>
+                            <option value="restaurant" selected>Restaurant Reservation</option>
+                            <option value="tickets">Tickets to Show/Event</option>
+                            <option value="complex">Complex Arrangements/Special Access</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hotelTypeConcierge">Hotel Type:</label>
+                        <select id="hotelTypeConcierge" name="hotelTypeConcierge">
+                            <option value="budget">Budget/Economy</option>
+                            <option value="standard" selected>Standard/Mid-range</option>
+                            <option value="luxury">Luxury/Resort</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="effortLevel">Effort/Difficulty Level:</label>
+                        <select id="effortLevel" name="effortLevel">
+                            <option value="easy">Easy (readily available)</option>
+                            <option value="moderate" selected>Moderate (requires some effort)</option>
+                            <option value="difficult">Difficult (hard to get, special arrangements)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customConciergeAmount">Custom Amount ($):</label>
+                        <input type="number" id="customConciergeAmount" name="customConciergeAmount" min="0" step="1" placeholder="Enter custom amount">
+                    </div>
+                    
+                    <button type="button" onclick="calculateConciergeTip()">Calculate Tip</button>
+                </form>
+                
+                <div id="conciergeResult" class="result">
+                    <h3>Concierge Tip Calculation</h3>
+                    <table class="result-table">
+                        <tr>
+                            <th>Recommended Tip Amount:</th>
+                            <td>$<span id="totalConciergeTip"></span></td>
+                        </tr>
+                    </table>
+                    <p id="conciergeNote" style="margin-top: 15px; font-style: italic;"></p>
+                </div>
+            </div>
+            
+            <!-- Room Service Tab -->
+            <div id="roomService" class="tabcontent">
+                <form id="roomServiceForm">
+                    <div class="tip-recommendation">
+                        <strong>Recommendation:</strong> 15-20% of the bill total if gratuity is not already included.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="orderAmount">Room Service Order Amount ($):</label>
+                        <input type="number" id="orderAmount" name="orderAmount" min="0.01" step="0.01" value="50">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gratuityIncluded">Is Gratuity Already Included?</label>
+                        <select id="gratuityIncluded" name="gratuityIncluded">
+                            <option value="no" selected>No</option>
+                            <option value="yes">Yes</option>
+                            <option value="unsure">Not Sure</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deliveryQuality">Delivery Quality:</label>
+                        <select id="deliveryQuality" name="deliveryQuality">
+                            <option value="standard">Standard (on time, correct)</option>
+                            <option value="excellent" selected>Excellent (prompt, friendly, helpful)</option>
+                            <option value="exceptional">Exceptional (went above and beyond)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customTipPercent">Custom Tip Percentage (%):</label>
+                        <input type="number" id="customTipPercent" name="customTipPercent" min="0" max="50" step="1" placeholder="Enter custom percentage">
+                    </div>
+                    
+                    <button type="button" onclick="calculateRoomServiceTip()">Calculate Tip</button>
+                </form>
+                
+                <div id="roomServiceResult" class="result">
+                    <h3>Room Service Tip Calculation</h3>
+                    <table class="result-table">
+                        <tr>
+                            <th>Order Amount:</th>
+                            <td>$<span id="resultOrderAmount"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Recommended Tip Percentage:</th>
+                            <td><span id="roomServiceTipPercent"></span>%</td>
+                        </tr>
+                        <tr>
+                            <th>Recommended Tip Amount:</th>
+                            <td>$<span id="totalRoomServiceTip"></span></td>
+                        </tr>
+                    </table>
+                    <p id="roomServiceNote" style="margin-top: 15px; font-style: italic;"></p>
+                </div>
+            </div>
+            
+            <!-- Valet Tab -->
+            <div id="valet" class="tabcontent">
+                <form id="valetForm">
+                    <div class="tip-recommendation">
+                        <strong>Recommendation:</strong> $2-5 each time your car is retrieved.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="retrievalCount">Number of Car Retrievals:</label>
+                        <input type="number" id="retrievalCount" name="retrievalCount" min="1" value="2">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hotelTypeValet">Hotel Type:</label>
+                        <select id="hotelTypeValet" name="hotelTypeValet">
+                            <option value="budget">Budget/Economy</option>
+                            <option value="standard" selected>Standard/Mid-range</option>
+                            <option value="luxury">Luxury/Resort</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="serviceSpeed">Service Speed:</label>
+                        <select id="serviceSpeed" name="serviceSpeed">
+                            <option value="slow">Slow</option>
+                            <option value="standard" selected>Standard</option>
+                            <option value="prompt">Very Prompt</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customValetAmount">Custom Amount Per Retrieval ($):</label>
+                        <input type="number" id="customValetAmount" name="customValetAmount" min="0" step="1" placeholder="Enter custom amount">
+                    </div>
+                    
+                    <button type="button" onclick="calculateValetTip()">Calculate Tip</button>
+                </form>
+                
+                <div id="valetResult" class="result">
+                    <h3>Valet Tip Calculation</h3>
+                    <table class="result-table">
+                        <tr>
+                            <th>Recommended Tip per Retrieval:</th>
+                            <td>$<span id="perRetrievalTip"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Total Valet Tip:</th>
+                            <td>$<span id="totalValetTip"></span></td>
+                        </tr>
+                    </table>
+                    <p id="valetNote" style="margin-top: 15px; font-style: italic;"></p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Hotel Tipping Guide</h2>
+            <p>Tipping hotel staff is customary in many countries, particularly in the United States and Canada. Understanding when and how much to tip can help ensure good service while avoiding awkwardness or overspending.</p>
+            
+            <h3>General Hotel Tipping Guidelines</h3>
+            <table class="result-table" style="margin: 20px 0;">
+                <tr>
+                    <th>Staff Position</th>
+                    <th>Typical Tip Amount</th>
+                </tr>
+                <tr>
+                    <td>Housekeeping</td>
+                    <td>$2-5 per night</td>
+                </tr>
+                <tr>
+                    <td>Bellhop/Porter</td>
+                    <td>$1-2 per bag (min. $5)</td>
+                </tr>
+                <tr>
+                    <td>Concierge</td>
+                    <td>$5-20 depending on service</td>
+                </tr>
+                <tr>
+                    <td>Room Service</td>
+                    <td>15-20% of bill (if not included)</td>
+                </tr>
+                <tr>
+                    <td>Valet</td>
+                    <td>$2-5 each time car is retrieved</td>
+                </tr>
+                <tr>
+                    <td>Doorman</td>
+                    <td>$1-2 for hailing cab, $1-4 for luggage help</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section>
+            <h2>Hotel Tipping Etiquette</h2>
+            
+            <h3>Housekeeping Tips</h3>
+            <p>Leave housekeeping tips daily rather than at the end of your stay, as different staff may clean your room each day. Place the tip on the pillow or desk with a note saying "Thank you" to ensure it's recognized as a tip.</p>
+            
+            <h3>Currency and Timing</h3>
+            <p>Always tip in local currency when possible. For services like bellhop assistance or valet, have small bills ready in advance to avoid awkwardly searching for money when the service is completed.</p>
+            
+            <h3>International Considerations</h3>
+            <p>Tipping practices vary widely by country. In some countries like Japan, tipping may even be considered offensive. Research local customs before traveling internationally.</p>
+            
+            <h3>Included Gratuities</h3>
+            <p>Some hotels add service charges or gratuities automatically, particularly for room service. Check your bill carefully to avoid double-tipping. If a service charge is included but the service was exceptional, you can still add a small additional tip.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Tab functionality
+        function openTipTab(evt, tabName) {
+            // Declare all variables
+            let i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        
+        // Format to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Calculate Housekeeping Tip
+        function calculateHousekeepingTip() {
+            const hotelType = document.getElementById('hotelType').value;
+            const stayLength = parseInt(document.getElementById('stayLength').value) || 1;
+            const roomType = document.getElementById('roomType').value;
+            const occupancy = parseInt(document.getElementById('roomOccupancy').value) || 1;
+            const cleaningQuality = document.getElementById('cleaningQuality').value;
+            const customAmount = parseFloat(document.getElementById('customAmount').value);
+            
+            // Base amount per night
+            let tipPerNight;
+            
+            if (!isNaN(customAmount)) {
+                tipPerNight = customAmount;
+            } else {
+                // Start with base tip based on hotel type
+                if (hotelType === 'budget') {
+                    tipPerNight = 2;
+                } else if (hotelType === 'standard') {
+                    tipPerNight = 3;
+                } else { // luxury
+                    tipPerNight = 5;
+                }
+                
+                // Adjust for room type
+                if (roomType === 'suite') {
+                    tipPerNight += 2;
+                } else if (roomType === 'family') {
+                    tipPerNight += 3;
+                }
+                
+                // Adjust for occupancy (more people = more mess)
+                if (occupancy > 2) {
+                    tipPerNight += Math.min((occupancy - 2), 3); // Add up to $3 more
+                }
+                
+                // Adjust for cleaning quality
+                if (cleaningQuality === 'excellent') {
+                    tipPerNight += 1;
+                } else if (cleaningQuality === 'exceptional') {
+                    tipPerNight += 2;
+                }
+            }
+            
+            // Calculate total for the stay
+            const totalTip = tipPerNight * stayLength;
+            
+            // Display results
+            document.getElementById('perNightTip').textContent = formatMoney(tipPerNight);
+            document.getElementById('totalHousekeepingTip').textContent = formatMoney(totalTip);
+            
+            // Add note
+            let note = "Leave the tip daily on the pillow or desk with a 'Thank You' note, as housekeeping staff may change daily.";
+            document.getElementById('housekeepingNote').textContent = note;
+            
+            // Show result
+            document.getElementById('housekeepingResult').style.display = 'block';
+        }
+        
+        // Calculate Bellhop Tip
+        function calculateBellhopTip() {
+            const bagCount = parseInt(document.getElementById('bagCount').value) || 1;
+            const hotelType = document.getElementById('hotelTypeBellhop').value;
+            const additionalHelp = document.getElementById('additionalHelp').value;
+            const customAmount = parseFloat(document.getElementById('customBellhopAmount').value);
+            
+            if (!isNaN(customAmount)) {
+                // Use custom amount if provided
+                const totalTip = customAmount;
+                const perBagTip = totalTip / bagCount;
+                
+                document.getElementById('perBagTip').textContent = formatMoney(perBagTip);
+                document.getElementById('totalBellhopTip').textContent = formatMoney(totalTip);
+            } else {
+                // Determine per-bag rate based on hotel type
+                let perBagTip;
+                if (hotelType === 'budget') {
+                    perBagTip = 1;
+                } else if (hotelType === 'standard') {
+                    perBagTip = 2;
+                } else { // luxury
+                    perBagTip = 3;
+                }
+                
+                // Calculate base tip
+                let totalTip = perBagTip * bagCount;
+                
+                // Ensure minimum tip
+                totalTip = Math.max(totalTip, 5);
+                
+                // Add for additional help
+                if (additionalHelp === 'moderate') {
+                    totalTip += 2;
+                } else if (additionalHelp === 'extensive') {
+                    totalTip += 5;
+                }
+                
+                document.getElementById('perBagTip').textContent = formatMoney(perBagTip);
+                document.getElementById('totalBellhopTip').textContent = formatMoney(totalTip);
+            }
+            
+            // Add note
+            let note = "Tip the bellhop directly at the time of service. Have small bills ready in advance.";
+            document.getElementById('bellhopNote').textContent = note;
+            
+            // Show result
+            document.getElementById('bellhopResult').style.display = 'block';
+        }
+        
+        // Calculate Concierge Tip
+        function calculateConciergeTip() {
+            const serviceType = document.getElementById('conciergeService').value;
+            const hotelType = document.getElementById('hotelTypeConcierge').value;
+            const effortLevel = document.getElementById('effortLevel').value;
+            const customAmount = parseFloat(document.getElementById('customConciergeAmount').value);
+            
+            let tipAmount;
+            
+            if (!isNaN(customAmount)) {
+                // Use custom amount if provided
+                tipAmount = customAmount;
+            } else {
+                // Base amount based on service type
+                switch(serviceType) {
+                    case 'directions':
+                        tipAmount = 0; // Often no tip needed for basic info
+                        break;
+                    case 'restaurant':
+                        tipAmount = 5;
+                        break;
+                    case 'tickets':
+                        tipAmount = 10;
+                        break;
+                    case 'complex':
+                        tipAmount = 20;
+                        break;
+                    default:
+                        tipAmount = 5;
+                }
+                
+                // Adjust for hotel type
+                if (hotelType === 'luxury') {
+                    tipAmount *= 1.5; // 50% more at luxury hotels
+                } else if (hotelType === 'budget') {
+                    tipAmount *= 0.7; // 30% less at budget hotels
+                }
+                
+                // Adjust for effort
+                if (effortLevel === 'difficult') {
+                    tipAmount *= 1.5; // 50% more for difficult tasks
+                } else if (effortLevel === 'easy') {
+                    tipAmount *= 0.7; // 30% less for easy tasks
+                }
+                
+                // Round to nearest dollar
+                tipAmount = Math.round(tipAmount);
+            }
+            
+            // Display result
+            document.getElementById('totalConciergeTip').textContent = formatMoney(tipAmount);
+            
+            // Add note
+            let note = "";
+            if (serviceType === 'directions') {
+                note = "No tip is typically necessary for basic directions or information.";
+            } else {
+                note = "Tip at the time the service is provided, or at the end of your stay if they helped throughout.";
+            }
+            document.getElementById('conciergeNote').textContent = note;
+            
+            // Show result
+            document.getElementById('conciergeResult').style.display = 'block';
+        }
+        
+        // Calculate Room Service Tip
+        function calculateRoomServiceTip() {
+            const orderAmount = parseFloat(document.getElementById('orderAmount').value) || 0;
+            const gratuityIncluded = document.getElementById('gratuityIncluded').value;
+            const deliveryQuality = document.getElementById('deliveryQuality').value;
+            const customTipPercent = parseFloat(document.getElementById('customTipPercent').value);
+            
+            // Determine tip percentage
+            let tipPercent;
+            let tipAmount = 0;
+            
+            if (gratuityIncluded === 'yes') {
+                // If gratuity is already included
+                tipPercent = 0;
+                tipAmount = 0;
+            } else {
+                if (!isNaN(customTipPercent)) {
+                    // Use custom percentage if provided
+                    tipPercent = customTipPercent;
+                } else {
+                    // Standard percentages based on service quality
+                    if (deliveryQuality === 'exceptional') {
+                        tipPercent = 20;
+                    } else if (deliveryQuality === 'excellent') {
+                        tipPercent = 18;
+                    } else { // standard
+                        tipPercent = 15;
+                    }
+                }
+                
+                // Calculate tip amount
+                tipAmount = orderAmount * (tipPercent / 100);
+            }
+            
+            // Display results
+            document.getElementById('resultOrderAmount').textContent = formatMoney(orderAmount);
+            document.getElementById('roomServiceTipPercent').textContent = tipPercent;
+            document.getElementById('totalRoomServiceTip').textContent = formatMoney(tipAmount);
+            
+            // Add note
+            let note = "";
+            if (gratuityIncluded === 'yes') {
+                note = "No additional tip is necessary as gratuity is already included in your bill.";
+            } else if (gratuityIncluded === 'unsure') {
+                note = "Check your bill for 'service charge' or 'gratuity' before tipping. If included, no additional tip is necessary.";
+            } else {
+                note = "Tip the delivery person directly when they bring your order.";
+            }
+            document.getElementById('roomServiceNote').textContent = note;
+            
+            // Show result
+            document.getElementById('roomServiceResult').style.display = 'block';
+        }
+        
+        // Calculate Valet Tip
+        function calculateValetTip() {
+            const retrievalCount = parseInt(document.getElementById('retrievalCount').value) || 1;
+            const hotelType = document.getElementById('hotelTypeValet').value;
+            const serviceSpeed = document.getElementById('serviceSpeed').value;
+            const customAmount = parseFloat(document.getElementById('customValetAmount').value);
+            
+            // Determine tip per retrieval
+            let tipPerRetrieval;
+            
+            if (!isNaN(customAmount)) {
+                // Use custom amount if provided
+                tipPerRetrieval = customAmount;
+            } else {
+                // Base amount based on hotel type
+                if (hotelType === 'budget') {
+                    tipPerRetrieval = 2;
+                } else if (hotelType === 'standard') {
+                    tipPerRetrieval = 3;
+                } else { // luxury
+                    tipPerRetrieval = 5;
+                }
+                
+                // Adjust for service speed
+                if (serviceSpeed === 'prompt') {
+                    tipPerRetrieval += 1;
+                } else if (serviceSpeed === 'slow') {
+                    tipPerRetrieval -= 1;
+                }
+                
+                // Ensure minimum of $1
+                tipPerRetrieval = Math.max(tipPerRetrieval, 1);
+            }
+            
+            // Calculate total
+            const totalTip = tipPerRetrieval * retrievalCount;
+            
+            // Display results
+            document.getElementById('perRetrievalTip').textContent = formatMoney(tipPerRetrieval);
+            document.getElementById('totalValetTip').textContent = formatMoney(totalTip);
+            
+            // Add note
+            let note = "Tip each time your car is brought to you, not when dropping off. Have cash ready before the car arrives.";
+            document.getElementById('valetNote').textContent = note;
+            
+            // Show result
+            document.getElementById('valetResult').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online restaurant tip calculator. Calculate appropriate tips for restaurant meals, split bills, and adjust for service quality easily.">
+    <meta name="keywords" content="restaurant tip calculator, dining tip, bill splitter, dinner tip, waiter tip, free online calculator">
+    <title>Restaurant Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0 20px;
+        }
+        .tip-option {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .tip-option:hover {
+            background-color: #e9f2fb;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Restaurant Tip Calculator</h1>
+        <p>Calculate dining tips, split bills, and adjust for service quality</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Restaurant Tip</h2>
+            <form id="tipForm">
+                <div class="form-group">
+                    <label for="billAmount">Bill Amount ($):</label>
+                    <input type="number" id="billAmount" name="billAmount" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceQuality">Service Quality:</label>
+                    <select id="serviceQuality" name="serviceQuality" required>
+                        <option value="">Select</option>
+                        <option value="excellent">Excellent (20%)</option>
+                        <option value="good">Good (18%)</option>
+                        <option value="standard">Standard (15%)</option>
+                        <option value="fair">Fair (10%)</option>
+                        <option value="poor">Poor (5-10%)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Custom Tip Percentage:</label>
+                    <div class="tip-options">
+                        <div class="tip-option" onclick="selectTip(15)" id="tip-15">15%</div>
+                        <div class="tip-option" onclick="selectTip(18)" id="tip-18">18%</div>
+                        <div class="tip-option" onclick="selectTip(20)" id="tip-20">20%</div>
+                        <div class="tip-option" onclick="selectTip(22)" id="tip-22">22%</div>
+                        <div class="tip-option" onclick="selectTip(25)" id="tip-25">25%</div>
+                    </div>
+                    <input type="number" id="customTipPercent" name="customTipPercent" min="0" max="100" placeholder="Or enter custom percentage" onchange="customTipSelected()">
+                </div>
+                
+                <div class="form-group">
+                    <label for="splitCount">Split Between:</label>
+                    <input type="number" id="splitCount" name="splitCount" min="1" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tax">Tax Rate (%):</label>
+                    <input type="number" id="tax" name="tax" min="0" max="20" value="0" step="0.1">
+                    <small>Optional: If you want to calculate tip on pre-tax amount</small>
+                </div>
+                
+                <button type="button" onclick="calculateTip()">Calculate Tip</button>
+            </form>
+            
+            <div id="result" class="result">
+                <h3>Tip Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Bill Amount:</th>
+                        <td>$<span id="resultBillAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Tip Percentage:</th>
+                        <td><span id="resultTipPercent"></span>%</td>
+                    </tr>
+                    <tr>
+                        <th>Tip Amount:</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount:</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+                
+                <div id="splitResult" style="margin-top: 15px; display: none;">
+                    <h4>Bill Split Details (per person):</h4>
+                    <table class="result-table">
+                        <tr>
+                            <th>Bill per Person:</th>
+                            <td>$<span id="resultBillPerPerson"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Tip per Person:</th>
+                            <td>$<span id="resultTipPerPerson"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Total per Person:</th>
+                            <td>$<span id="resultTotalPerPerson"></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>About Tipping at Restaurants</h2>
+            <p>Tipping is a customary practice in many countries to show appreciation for good service. In the restaurant industry, tips often make up a significant portion of servers' income. Understanding tipping etiquette can help ensure fair compensation for service workers while maintaining social norms.</p>
+            <p>In the United States, the standard tipping range for restaurant service is typically 15-20% of the bill amount, but this can vary based on service quality and personal preference.</p>
+        </section>
+        
+        <section>
+            <h2>Restaurant Tipping Guidelines</h2>
+            <p>Here's a general guide for tipping at restaurants based on service quality:</p>
+            <ul>
+                <li><strong>Exceptional Service (20-25%):</strong> Server was attentive, knowledgeable, personable, and went above and beyond</li>
+                <li><strong>Good Service (18-20%):</strong> Server was attentive and efficient with minimal errors</li>
+                <li><strong>Standard Service (15-18%):</strong> Server was adequate, food arrived as ordered with reasonable timing</li>
+                <li><strong>Fair Service (10-15%):</strong> Some issues with order accuracy or attentiveness but effort was made</li>
+                <li><strong>Poor Service (5-10%):</strong> Significant problems with service that weren't addressed</li>
+            </ul>
+            <p>Remember that these are guidelines, and tipping practices may vary by region and establishment type.</p>
+        </section>
+        
+        <section>
+            <h2>Tipping FAQs</h2>
+            <h3>Should I tip on the pre-tax or post-tax amount?</h3>
+            <p>While technically correct to tip on the pre-tax amount, many people find it simpler to tip on the total bill. Either approach is acceptable, though tipping on the pre-tax amount is slightly more traditional.</p>
+            
+            <h3>How do I handle tipping for large groups?</h3>
+            <p>Many restaurants automatically add a gratuity of 18-20% for large groups (typically 6-8 or more people). Check your bill to see if a gratuity has already been included before adding additional tip.</p>
+            
+            <h3>Should I tip differently for expensive meals?</h3>
+            <p>The standard percentage guidelines generally apply regardless of the meal cost. However, for extremely expensive meals, some people opt to tip a slightly lower percentage while still ensuring the tip amount is substantial.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 0;
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('tip-' + percent).classList.add('selected');
+            
+            // Update the custom tip field and selected percentage
+            document.getElementById('customTipPercent').value = '';
+            selectedTipPercent = percent;
+            
+            // If service quality dropdown is set, clear it
+            document.getElementById('serviceQuality').value = '';
+        }
+        
+        // Function when custom tip is entered
+        function customTipSelected() {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Get custom tip value
+            const customTip = parseFloat(document.getElementById('customTipPercent').value);
+            if (!isNaN(customTip)) {
+                selectedTipPercent = customTip;
+            }
+            
+            // Clear service quality selection
+            document.getElementById('serviceQuality').value = '';
+        }
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const billAmount = parseFloat(document.getElementById('billAmount').value);
+            const serviceQuality = document.getElementById('serviceQuality').value;
+            const splitCount = parseInt(document.getElementById('splitCount').value) || 1;
+            const taxRate = parseFloat(document.getElementById('tax').value) || 0;
+            
+            // Validate bill amount
+            if (isNaN(billAmount) || billAmount <= 0) {
+                alert("Please enter a valid bill amount.");
+                return;
+            }
+            
+            // Determine tip percentage based on inputs
+            let tipPercent = selectedTipPercent;
+            
+            // If service quality is selected, override the tip percent
+            if (serviceQuality) {
+                switch (serviceQuality) {
+                    case 'excellent':
+                        tipPercent = 20;
+                        break;
+                    case 'good':
+                        tipPercent = 18;
+                        break;
+                    case 'standard':
+                        tipPercent = 15;
+                        break;
+                    case 'fair':
+                        tipPercent = 10;
+                        break;
+                    case 'poor':
+                        tipPercent = 7;
+                        break;
+                }
+                
+                // Update the UI to show selected percentage
+                document.querySelectorAll('.tip-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+            }
+            
+            // If no tip percentage is selected, use default
+            if (tipPercent === 0) {
+                tipPercent = 15;
+            }
+            
+            // Calculate pre-tax amount if tax rate is provided
+            let baseAmount = billAmount;
+            if (taxRate > 0) {
+                baseAmount = billAmount / (1 + (taxRate / 100));
+            }
+            
+            // Calculate tip amount
+            const tipAmount = baseAmount * (tipPercent / 100);
+            
+            // Calculate total with tip
+            const totalAmount = billAmount + tipAmount;
+            
+            // Calculate per person amounts if splitting
+            const billPerPerson = billAmount / splitCount;
+            const tipPerPerson = tipAmount / splitCount;
+            const totalPerPerson = totalAmount / splitCount;
+            
+            // Display results
+            document.getElementById('resultBillAmount').textContent = formatMoney(billAmount);
+            document.getElementById('resultTipPercent').textContent = tipPercent;
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show or hide split result section
+            if (splitCount > 1) {
+                document.getElementById('resultBillPerPerson').textContent = formatMoney(billPerPerson);
+                document.getElementById('resultTipPerPerson').textContent = formatMoney(tipPerPerson);
+                document.getElementById('resultTotalPerPerson').textContent = formatMoney(totalPerPerson);
+                document.getElementById('splitResult').style.display = 'block';
+            } else {
+                document.getElementById('splitResult').style.display = 'none';
+            }
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

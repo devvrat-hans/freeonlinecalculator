@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online iPhone-style tip calculator. Calculate tips with an iOS-inspired interface that's simple, clean, and easy to use.">
+    <meta name="keywords" content="iphone tip calculator, ios tip calculator, apple tip calculator, mobile tip calculator, free online calculator">
+    <title>iPhone-Style Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+            background-color: #f2f2f7;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #d1d1d6;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: 600;
+            color: #000;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #1c1c1e;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #d1d1d6;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #f2f2f7;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #007aff;
+            background-color: #fff;
+        }
+        button {
+            background-color: #007aff;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0 20px;
+        }
+        .tip-option {
+            flex: 1;
+            min-width: calc(33.333% - 10px);
+            padding: 12px 5px;
+            border: 1px solid #d1d1d6;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            background-color: #f2f2f7;
+        }
+        .tip-option:hover {
+            background-color: #e9f0ff;
+        }
+        .tip-option.selected {
+            background-color: #007aff;
+            color: white;
+            border-color: #007aff;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #e5e5ea;
+            text-align: left;
+        }
+        .result-table th {
+            color: #6e6e73;
+            font-weight: 500;
+        }
+        .result-table td {
+            font-weight: 600;
+            color: #1c1c1e;
+        }
+        .result-heading {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #1c1c1e;
+            border-bottom: 1px solid #e5e5ea;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+        .total-row {
+            font-size: 1.1em;
+            color: #007aff;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #d1d1d6;
+            text-align: center;
+            font-size: 0.9em;
+            color: #6e6e73;
+        }
+        a {
+            color: #007aff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .segmented-control {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .segment {
+            padding: 8px 12px;
+            background-color: #f2f2f7;
+            border: 1px solid #d1d1d6;
+            color: #1c1c1e;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .segment:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        .segment:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .segment.selected {
+            background-color: #007aff;
+            color: white;
+            border-color: #007aff;
+        }
+        .slider-container {
+            margin: 20px 0;
+        }
+        .slider {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #e5e5ea;
+            outline: none;
+            border-radius: 3px;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            background: #007aff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            background: #007aff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider-value {
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #007aff;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>iPhone-Style Tip Calculator</h1>
+        <p>Calculate tips with an iOS-inspired interface</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2 style="text-align:center;margin-top:0">Tip Calculator</h2>
+
+            <div class="form-group">
+                <label for="billAmount">Bill Amount ($)</label>
+                <input type="number" id="billAmount" name="billAmount" min="0.01" step="0.01" required placeholder="0.00">
+            </div>
+            
+            <div class="form-group">
+                <label for="tipPercent">Tip (%)</label>
+                <div class="slider-value"><span id="tipValue">15%</span></div>
+                <input type="range" min="0" max="30" value="15" class="slider" id="tipPercent">
+                
+                <div class="tip-options">
+                    <div class="tip-option" onclick="selectTip(15)" id="tip-15">15%</div>
+                    <div class="tip-option" onclick="selectTip(18)" id="tip-18">18%</div>
+                    <div class="tip-option" onclick="selectTip(20)" id="tip-20">20%</div>
+                    <div class="tip-option" onclick="selectTip(22)" id="tip-22">22%</div>
+                    <div class="tip-option" onclick="selectTip(25)" id="tip-25">25%</div>
+                    <div class="tip-option" onclick="selectTip(0)" id="tip-custom">Custom</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="segmented-control">
+                    <div class="segment selected" id="seg-people" onclick="switchToSplit('people')">People</div>
+                    <div class="segment" id="seg-service" onclick="switchToSplit('service')">Service Quality</div>
+                </div>
+                
+                <div id="people-section">
+                    <label for="splitCount">Split Between</label>
+                    <div class="tip-options" style="margin:10px 0">
+                        <div class="tip-option" onclick="selectPeople(1)" id="people-1">1</div>
+                        <div class="tip-option" onclick="selectPeople(2)" id="people-2">2</div>
+                        <div class="tip-option" onclick="selectPeople(3)" id="people-3">3</div>
+                        <div class="tip-option" onclick="selectPeople(4)" id="people-4">4</div>
+                        <div class="tip-option" onclick="selectPeople(5)" id="people-5">5</div>
+                        <div class="tip-option" onclick="selectPeople(6)" id="people-6">6+</div>
+                    </div>
+                    <input type="number" id="splitCount" name="splitCount" min="1" value="1" placeholder="Number of people">
+                </div>
+                
+                <div id="service-section" style="display:none">
+                    <label for="serviceQuality">Service Quality</label>
+                    <select id="serviceQuality" name="serviceQuality">
+                        <option value="">Select</option>
+                        <option value="excellent">Excellent (20%)</option>
+                        <option value="good">Good (18%)</option>
+                        <option value="standard">Standard (15%)</option>
+                        <option value="fair">Fair (10%)</option>
+                        <option value="poor">Poor (5-10%)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button type="button" onclick="calculateTip()">Calculate Tip</button>
+            
+            <div id="result" class="result">
+                <h3 class="result-heading">Tip Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Bill Amount</th>
+                        <td>$<span id="resultBillAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Tip (<span id="resultTipPercent"></span>%)</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr class="total-row">
+                        <th>Total Amount</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+                
+                <div id="splitResult" style="margin-top: 25px; display: none;">
+                    <h4 style="color:#6e6e73;margin-bottom:15px;">Amount Per Person:</h4>
+                    <table class="result-table">
+                        <tr>
+                            <th>Bill</th>
+                            <td>$<span id="resultBillPerPerson"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Tip</th>
+                            <td>$<span id="resultTipPerPerson"></span></td>
+                        </tr>
+                        <tr class="total-row">
+                            <th>Total</th>
+                            <td>$<span id="resultTotalPerPerson"></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>About the iPhone-Style Tip Calculator</h2>
+            <p>This calculator offers an iOS-inspired interface for calculating tips quickly and easily. With its clean design and intuitive controls, you can:</p>
+            <ul>
+                <li>Use the slider or preset buttons to select tip percentage</li>
+                <li>Split the bill among multiple people</li>
+                <li>Adjust based on service quality</li>
+                <li>Get instant results with a visually appealing layout</li>
+            </ul>
+            <p>Whether you're dining out, ordering takeout, or getting delivery, this calculator provides a familiar iOS experience for determining appropriate tips.</p>
+        </section>
+        
+        <section>
+            <h2>Tips for Using This Calculator</h2>
+            <p>For the best experience with this iPhone-style tip calculator:</p>
+            <ul>
+                <li><strong>Slider Control:</strong> Drag the slider to adjust tip percentage in 1% increments</li>
+                <li><strong>Quick Presets:</strong> Tap the percentage buttons for commonly used tip rates</li>
+                <li><strong>People vs. Service:</strong> Switch between splitting by people count or adjusting by service quality</li>
+                <li><strong>Custom Options:</strong> Enter exact values for complete control over your calculations</li>
+            </ul>
+            <p>The calculator is designed to be lightweight and responsive, mimicking the look and feel of native iOS applications.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            selectTip(15);
+            selectPeople(1);
+            updateSlider();
+        });
+        
+        // Global variables
+        let selectedTipPercent = 15;
+        let selectedPeople = 1;
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            if (percent === 0) {
+                document.getElementById('tip-custom').classList.add('selected');
+                document.getElementById('tipPercent').value = selectedTipPercent;
+            } else {
+                document.getElementById('tip-' + percent).classList.add('selected');
+                selectedTipPercent = percent;
+                document.getElementById('tipPercent').value = percent;
+                updateSlider();
+            }
+            
+            // If service quality dropdown is set, clear it
+            if (document.getElementById('serviceQuality').value) {
+                document.getElementById('serviceQuality').value = '';
+            }
+        }
+        
+        // Function to select number of people
+        function selectPeople(people) {
+            // Clear all selected classes
+            document.querySelectorAll('[id^="people-"]').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('people-' + people).classList.add('selected');
+            
+            // Handle special case for 6+
+            if (people === 6) {
+                document.getElementById('splitCount').value = '';
+                document.getElementById('splitCount').placeholder = 'Enter number';
+                document.getElementById('splitCount').focus();
+            } else {
+                selectedPeople = people;
+                document.getElementById('splitCount').value = people;
+            }
+        }
+        
+        // Function to switch between people and service sections
+        function switchToSplit(type) {
+            if (type === 'people') {
+                document.getElementById('people-section').style.display = 'block';
+                document.getElementById('service-section').style.display = 'none';
+                document.getElementById('seg-people').classList.add('selected');
+                document.getElementById('seg-service').classList.remove('selected');
+            } else {
+                document.getElementById('people-section').style.display = 'none';
+                document.getElementById('service-section').style.display = 'block';
+                document.getElementById('seg-people').classList.remove('selected');
+                document.getElementById('seg-service').classList.add('selected');
+            }
+        }
+        
+        // Update slider value display
+        function updateSlider() {
+            const slider = document.getElementById('tipPercent');
+            const output = document.getElementById('tipValue');
+            output.innerHTML = slider.value + '%';
+            selectedTipPercent = parseInt(slider.value);
+            
+            // Clear all selected tip buttons
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Check if value matches a preset button, and if so, highlight it
+            if ([15, 18, 20, 22, 25].includes(selectedTipPercent)) {
+                document.getElementById('tip-' + selectedTipPercent).classList.add('selected');
+            } else {
+                document.getElementById('tip-custom').classList.add('selected');
+            }
+        }
+        
+        // Add listener for slider changes
+        document.getElementById('tipPercent').oninput = function() {
+            updateSlider();
+        };
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const billAmount = parseFloat(document.getElementById('billAmount').value);
+            const serviceQuality = document.getElementById('serviceQuality').value;
+            const splitCount = parseInt(document.getElementById('splitCount').value) || 1;
+            
+            // Validate bill amount
+            if (isNaN(billAmount) || billAmount <= 0) {
+                alert("Please enter a valid bill amount.");
+                return;
+            }
+            
+            // Determine tip percentage based on inputs
+            let tipPercent = selectedTipPercent;
+            
+            // If service quality is selected, override the tip percent
+            if (serviceQuality) {
+                switch (serviceQuality) {
+                    case 'excellent':
+                        tipPercent = 20;
+                        break;
+                    case 'good':
+                        tipPercent = 18;
+                        break;
+                    case 'standard':
+                        tipPercent = 15;
+                        break;
+                    case 'fair':
+                        tipPercent = 10;
+                        break;
+                    case 'poor':
+                        tipPercent = 7;
+                        break;
+                }
+            }
+            
+            // Calculate tip amount
+            const tipAmount = billAmount * (tipPercent / 100);
+            
+            // Calculate total with tip
+            const totalAmount = billAmount + tipAmount;
+            
+            // Calculate per person amounts if splitting
+            const billPerPerson = billAmount / splitCount;
+            const tipPerPerson = tipAmount / splitCount;
+            const totalPerPerson = totalAmount / splitCount;
+            
+            // Display results
+            document.getElementById('resultBillAmount').textContent = formatMoney(billAmount);
+            document.getElementById('resultTipPercent').textContent = tipPercent;
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show or hide split result section
+            if (splitCount > 1) {
+                document.getElementById('resultBillPerPerson').textContent = formatMoney(billPerPerson);
+                document.getElementById('resultTipPerPerson').textContent = formatMoney(tipPerPerson);
+                document.getElementById('resultTotalPerPerson').textContent = formatMoney(totalPerPerson);
+                document.getElementById('splitResult').style.display = 'block';
+            } else {
+                document.getElementById('splitResult').style.display = 'none';
+            }
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

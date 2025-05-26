@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online dog groomer tip calculator. Calculate appropriate tips for pet grooming services based on service type, complexity, and quality.">
+    <meta name="keywords" content="dog groomer tip calculator, pet groomer gratuity, dog grooming tip, pet grooming tip, groomer tip amount, free online calculator">
+    <title>Dog Groomer Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0 20px;
+        }
+        .tip-option {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .tip-option:hover {
+            background-color: #e9f2fb;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+        }
+        .option-item input {
+            width: auto;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dog Groomer Tip Calculator</h1>
+        <p>Calculate appropriate tips for pet grooming services</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Dog Groomer Tip</h2>
+            <form id="tipForm">
+                <div class="form-group">
+                    <label for="serviceType">Service Type:</label>
+                    <select id="serviceType" name="serviceType" required>
+                        <option value="">Select a Service</option>
+                        <option value="basicBath">Basic Bath & Brush</option>
+                        <option value="fullGrooming">Full Grooming (Bath, Cut & Style)</option>
+                        <option value="specialtyGroom">Specialty Grooming (Hand Scissoring)</option>
+                        <option value="nailTrim">Nail Trim Only</option>
+                        <option value="deShedding">De-shedding Treatment</option>
+                        <option value="other">Other Service</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="servicePrice">Service Price ($):</label>
+                    <input type="number" id="servicePrice" name="servicePrice" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Pet Factors:</label>
+                    <div class="option-grid">
+                        <div class="option-item">
+                            <input type="checkbox" id="largeBreed" name="largeBreed">
+                            <label for="largeBreed">Large or Giant Breed</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="matted" name="matted">
+                            <label for="matted">Heavily Matted Coat</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="anxious" name="anxious">
+                            <label for="anxious">Anxious/Difficult Pet</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="special" name="special">
+                            <label for="special">Special Needs Pet</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceQuality">Service Quality:</label>
+                    <select id="serviceQuality" name="serviceQuality">
+                        <option value="">Select</option>
+                        <option value="excellent">Excellent (20-25%)</option>
+                        <option value="good">Good (15-20%)</option>
+                        <option value="average">Average (15%)</option>
+                        <option value="belowAverage">Below Average (10%)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Custom Tip Percentage:</label>
+                    <div class="tip-options">
+                        <div class="tip-option" onclick="selectTip(10)" id="tip-10">10%</div>
+                        <div class="tip-option" onclick="selectTip(15)" id="tip-15">15%</div>
+                        <div class="tip-option" onclick="selectTip(18)" id="tip-18">18%</div>
+                        <div class="tip-option" onclick="selectTip(20)" id="tip-20">20%</div>
+                        <div class="tip-option" onclick="selectTip(25)" id="tip-25">25%</div>
+                    </div>
+                    <input type="number" id="customTipPercent" name="customTipPercent" min="0" max="100" placeholder="Or enter custom percentage" onchange="customTipSelected()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Additional Considerations:</label>
+                    <div class="option-grid">
+                        <div class="option-item">
+                            <input type="checkbox" id="holiday" name="holiday">
+                            <label for="holiday">Holiday/Peak Season</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="extraTime" name="extraTime">
+                            <label for="extraTime">Required Extra Time</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="regular" name="regular">
+                            <label for="regular">Regular Customer</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="lastMinute" name="lastMinute">
+                            <label for="lastMinute">Last-minute Appointment</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" onclick="calculateTip()">Calculate Tip</button>
+            </form>
+            
+            <div id="result" class="result">
+                <h3>Tip Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Service Price:</th>
+                        <td>$<span id="resultServicePrice"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Recommended Tip Percentage:</th>
+                        <td><span id="resultTipPercent"></span>%</td>
+                    </tr>
+                    <tr>
+                        <th>Tip Amount:</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount:</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Dog Groomer Tipping Guide</h2>
+            <p>Tipping your dog groomer is a common practice to show appreciation for their skill and care. Dog grooming is physically demanding work that requires training, patience, and attention to detail. Standard tipping rates typically range from 15-20% of the service cost, but may vary based on several factors.</p>
+            
+            <h3>Suggested Tip Percentages by Service</h3>
+            <ul>
+                <li><strong>Basic Bath & Brush:</strong> 15%</li>
+                <li><strong>Full Grooming:</strong> 15-20%</li>
+                <li><strong>Specialty Grooming:</strong> 20-25%</li>
+                <li><strong>Nail Trim Only:</strong> $2-5 flat tip</li>
+                <li><strong>De-shedding Treatment:</strong> 15-20%</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>When to Tip More for Dog Grooming</h2>
+            <p>Consider tipping more generously when:</p>
+            <ul>
+                <li><strong>Your dog is challenging:</strong> If your pet is anxious, uncooperative, or requires special handling</li>
+                <li><strong>Your dog's coat was matted:</strong> Matted fur requires extra time and careful attention</li>
+                <li><strong>It's a large dog:</strong> Larger dogs require more physical effort to handle and groom</li>
+                <li><strong>Special styling was done:</strong> Detailed cuts, hand scissoring, or special requests</li>
+                <li><strong>Holiday season:</strong> During busy holiday periods when groomers are working extra hours</li>
+                <li><strong>Last-minute appointment:</strong> If the groomer accommodated a last-minute request</li>
+                <li><strong>Regular relationship:</strong> If you see the same groomer regularly, holiday or seasonal bonuses are appreciated</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Dog Grooming Tipping Etiquette</h2>
+            <p>Here are some tipping etiquette guidelines for pet grooming services:</p>
+            <ul>
+                <li><strong>Tip the Groomer Directly:</strong> If possible, give the tip directly to the person who groomed your dog</li>
+                <li><strong>Cash is Preferred:</strong> While cards are often accepted, cash tips are generally preferred</li>
+                <li><strong>Salon Owner:</strong> If the salon owner grooms your dog, tipping is still appreciated but not always expected</li>
+                <li><strong>Mobile Groomers:</strong> Mobile groomers typically receive the same tip percentages as salon-based groomers</li>
+                <li><strong>Multiple Pets:</strong> Consider tipping 15-20% on the total bill or a slightly lower percentage with a minimum of $5 per pet</li>
+                <li><strong>Holiday Bonus:</strong> For regular clients, an extra-generous tip during the holidays (equal to one service) is a nice gesture</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 15; // Default to 15%
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('tip-' + percent).classList.add('selected');
+            
+            // Update the custom tip field and selected percentage
+            document.getElementById('customTipPercent').value = '';
+            selectedTipPercent = percent;
+            
+            // If service quality dropdown is set, clear it
+            document.getElementById('serviceQuality').value = '';
+        }
+        
+        // Function when custom tip is entered
+        function customTipSelected() {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Get custom tip value
+            const customTip = parseFloat(document.getElementById('customTipPercent').value);
+            if (!isNaN(customTip)) {
+                selectedTipPercent = customTip;
+            }
+            
+            // Clear service quality selection
+            document.getElementById('serviceQuality').value = '';
+        }
+        
+        // Service type change handler
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select default tip option
+            document.getElementById('tip-15').classList.add('selected');
+            
+            document.getElementById('serviceType').addEventListener('change', function() {
+                const serviceType = this.value;
+                let recommendedTip = 15;
+                
+                switch(serviceType) {
+                    case 'basicBath':
+                        recommendedTip = 15;
+                        break;
+                    case 'fullGrooming':
+                        recommendedTip = 18;
+                        break;
+                    case 'specialtyGroom':
+                        recommendedTip = 20;
+                        break;
+                    case 'nailTrim':
+                        recommendedTip = 10;
+                        break;
+                    case 'deShedding':
+                        recommendedTip = 18;
+                        break;
+                    default:
+                        recommendedTip = 15;
+                }
+                
+                selectTip(recommendedTip);
+            });
+        });
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const servicePrice = parseFloat(document.getElementById('servicePrice').value);
+            const serviceQuality = document.getElementById('serviceQuality').value;
+            
+            // Get checkbox values
+            const largeBreed = document.getElementById('largeBreed').checked;
+            const matted = document.getElementById('matted').checked;
+            const anxious = document.getElementById('anxious').checked;
+            const special = document.getElementById('special').checked;
+            const holiday = document.getElementById('holiday').checked;
+            const extraTime = document.getElementById('extraTime').checked;
+            const regular = document.getElementById('regular').checked;
+            const lastMinute = document.getElementById('lastMinute').checked;
+            
+            // Validate service price
+            if (isNaN(servicePrice) || servicePrice <= 0) {
+                alert("Please enter a valid service price.");
+                return;
+            }
+            
+            // Determine tip percentage based on inputs
+            let tipPercent = selectedTipPercent;
+            
+            // If service quality is selected, override the tip percent
+            if (serviceQuality) {
+                switch (serviceQuality) {
+                    case 'excellent':
+                        tipPercent = 25;
+                        break;
+                    case 'good':
+                        tipPercent = 18;
+                        break;
+                    case 'average':
+                        tipPercent = 15;
+                        break;
+                    case 'belowAverage':
+                        tipPercent = 10;
+                        break;
+                }
+            }
+            
+            // Apply adjustments based on pet factors and additional considerations
+            let adjustment = 0;
+            if (largeBreed) adjustment += 2;
+            if (matted) adjustment += 3;
+            if (anxious) adjustment += 3;
+            if (special) adjustment += 5;
+            if (holiday) adjustment += 3;
+            if (extraTime) adjustment += 2;
+            if (regular) adjustment += 1;
+            if (lastMinute) adjustment += 2;
+            
+            tipPercent += adjustment;
+            
+            // Make sure we have a minimum value
+            if (tipPercent < 10) {
+                tipPercent = 10;
+            }
+            
+            // Handle nail trim special case: higher percent for low cost service
+            if (document.getElementById('serviceType').value === 'nailTrim' && servicePrice < 20) {
+                // For low-cost nail trims, ensure at least a $3 minimum tip
+                const calculatedTip = servicePrice * (tipPercent / 100);
+                if (calculatedTip < 3) {
+                    tipPercent = Math.ceil((3 / servicePrice) * 100);
+                }
+            }
+            
+            // Calculate tip amount
+            const tipAmount = servicePrice * (tipPercent / 100);
+            
+            // Calculate total with tip
+            const totalAmount = servicePrice + tipAmount;
+            
+            // Display results
+            document.getElementById('resultServicePrice').textContent = formatMoney(servicePrice);
+            document.getElementById('resultTipPercent').textContent = tipPercent;
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

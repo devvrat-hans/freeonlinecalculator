@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online standard biological age calculator. Calculate your biological age based on health factors and lifestyle habits.">
+    <meta name="keywords" content="biological age calculator, bioage calculator, real age test, health age, body age calculator, free online calculator">
+    <title>Standard Biological Age Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .related-calculators {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        .related-calculators h3 {
+            margin-top: 0;
+        }
+        .related-calculators ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Standard Biological Age Calculator</h1>
+        <p>Calculate your biological age based on lifestyle, fitness, and health markers</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Your Biological Age</h2>
+            <form id="bioageForm">
+                <div class="form-group">
+                    <label for="chronologicalAge">Chronological Age:</label>
+                    <input type="number" id="chronologicalAge" name="chronologicalAge" min="18" max="120" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="weight">Weight (kg):</label>
+                    <input type="number" id="weight" name="weight" min="30" max="300" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="height">Height (cm):</label>
+                    <input type="number" id="height" name="height" min="100" max="250" required>
+                </div>
+                <div class="form-group">
+                    <label for="heartRate">Resting Heart Rate (bpm):</label>
+                    <input type="number" id="heartRate" name="heartRate" min="40" max="220" required>
+                </div>
+                <div class="form-group">
+                    <label for="exercise">Weekly Exercise (hours):</label>
+                    <input type="number" id="exercise" name="exercise" min="0" max="30" step="0.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="sleep">Average Sleep per Night (hours):</label>
+                    <input type="number" id="sleep" name="sleep" min="3" max="12" step="0.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="smoking">Do you smoke?</label>
+                    <select id="smoking" name="smoking" required>
+                        <option value="">Select</option>
+                        <option value="no">No</option>
+                        <option value="occasionally">Occasionally</option>
+                        <option value="regularly">Regularly</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="alcohol">Alcohol Consumption:</label>
+                    <select id="alcohol" name="alcohol" required>
+                        <option value="">Select</option>
+                        <option value="none">None</option>
+                        <option value="light">Light (1-3 drinks/week)</option>
+                        <option value="moderate">Moderate (4-7 drinks/week)</option>
+                        <option value="heavy">Heavy (8+ drinks/week)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="diet">Diet Quality:</label>
+                    <select id="diet" name="diet" required>
+                        <option value="">Select</option>
+                        <option value="excellent">Excellent (mostly whole foods, fruits, vegetables)</option>
+                        <option value="good">Good (balanced but with some processed foods)</option>
+                        <option value="average">Average (mix of healthy and unhealthy)</option>
+                        <option value="poor">Poor (mostly processed foods)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="stress">Stress Level:</label>
+                    <select id="stress" name="stress" required>
+                        <option value="">Select</option>
+                        <option value="low">Low</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="high">High</option>
+                        <option value="severe">Severe</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="mentalActivity">Mental Activity Level:</label>
+                    <select id="mentalActivity" name="mentalActivity" required>
+                        <option value="">Select</option>
+                        <option value="high">High (daily learning and cognitive challenges)</option>
+                        <option value="moderate">Moderate (some intellectual engagement)</option>
+                        <option value="low">Low (minimal cognitive challenge)</option>
+                    </select>
+                </div>
+                <button type="button" onclick="calculateBioAge()">Calculate Biological Age</button>
+            </form>
+            <div id="result" class="result">
+                <h3>Your Results</h3>
+                <p>Chronological Age: <span id="chronoResult"></span></p>
+                <p>Biological Age: <span id="bioResult"></span></p>
+                <p id="interpretation"></p>
+            </div>
+        </section>
+
+        <section>
+            <h2>What Is Biological Age?</h2>
+            <p>Biological age, also known as physiological age, measures how well your body is functioning relative to your actual chronological age. While chronological age is a measure of how many years you've been alive, biological age reflects the age your body appears to be based on various biomarkers and lifestyle factors.</p>
+            <p>Unlike chronological age, which advances at a fixed rate for everyone, biological age can be influenced by various factors including genetics, lifestyle choices, environmental exposures, and health conditions. It's possible for your biological age to be higher or lower than your chronological age, depending on how well your body is functioning.</p>
+        </section>
+        
+        <section>
+            <h2>Why Calculate Your Biological Age?</h2>
+            <p>Understanding your biological age can provide valuable insights into your overall health and wellness:</p>
+            <ul>
+                <li><strong>Early Warning System:</strong> A biological age significantly higher than your chronological age may indicate increased health risks</li>
+                <li><strong>Lifestyle Feedback:</strong> Helps evaluate the impact of your current lifestyle on your aging process</li>
+                <li><strong>Motivation:</strong> Can provide motivation to make positive health changes</li>
+                <li><strong>Progress Tracking:</strong> Allows you to track improvements in your health over time</li>
+                <li><strong>Personalized Health:</strong> Helps identify specific areas where health improvements would be most beneficial</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>How Our Calculator Works</h2>
+            <p>This standard biological age calculator uses a combination of health and lifestyle factors that are known to influence aging and longevity, including:</p>
+            <ul>
+                <li><strong>Body Composition:</strong> BMI calculated from height and weight</li>
+                <li><strong>Cardiovascular Health:</strong> Resting heart rate</li>
+                <li><strong>Physical Activity:</strong> Weekly exercise quantity</li>
+                <li><strong>Sleep Quality:</strong> Average nightly sleep duration</li>
+                <li><strong>Substance Use:</strong> Smoking status and alcohol consumption</li>
+                <li><strong>Nutrition:</strong> Overall diet quality</li>
+                <li><strong>Stress Levels:</strong> Self-reported stress intensity</li>
+                <li><strong>Mental Stimulation:</strong> Cognitive engagement and activity</li>
+                <li><strong>Gender:</strong> Biological differences in aging patterns</li>
+            </ul>
+            <p>The calculator weights these factors based on scientific research about their relative impact on aging and produces an estimate of your biological age. While not a medical diagnostic tool, it provides a useful indication of your overall health status relative to your age.</p>
+        </section>
+        
+        <section>
+            <h2>How to Improve Your Biological Age</h2>
+            <p>If your biological age is higher than your chronological age, there are several evidence-based strategies that can help reduce it:</p>
+            <ol>
+                <li><strong>Regular Physical Activity:</strong> Aim for at least 150 minutes of moderate exercise per week</li>
+                <li><strong>Balanced Diet:</strong> Focus on whole foods, plenty of vegetables, fruits, and minimize processed foods</li>
+                <li><strong>Adequate Sleep:</strong> Prioritize 7-9 hours of quality sleep each night</li>
+                <li><strong>Stress Management:</strong> Practice mindfulness, meditation, or other stress-reduction techniques</li>
+                <li><strong>Avoid Smoking:</strong> Quit smoking or avoid starting, as it significantly accelerates aging</li>
+                <li><strong>Moderate Alcohol Consumption:</strong> Limit alcohol intake to recommended levels</li>
+                <li><strong>Social Connections:</strong> Maintain strong social relationships, as isolation can accelerate aging</li>
+                <li><strong>Mental Stimulation:</strong> Keep your brain active with learning and cognitive challenges</li>
+                <li><strong>Regular Health Screenings:</strong> Early detection and management of health issues</li>
+                <li><strong>Hydration:</strong> Maintain proper hydration for optimal cellular function</li>
+            </ol>
+        </section>
+        
+        <section class="related-calculators">
+            <h3>Try Our Specialized Biological Age Calculators</h3>
+            <p>For more personalized results, check out our gender-specific biological age calculators:</p>
+            <ul>
+                <li><a href="mens-bioage-calculator.html">Men's Biological Age Calculator</a> - Tailored for male-specific health factors</li>
+                <li><a href="womens-bioage-calculator.html">Women's Biological Age Calculator</a> - Accounts for female-specific health considerations</li>
+                <li><a href="metabolic-age-calculator.html">Metabolic Age Calculator</a> - Focuses specifically on your metabolic health</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        function calculateBioAge() {
+            // Get form values
+            const chronoAge = parseFloat(document.getElementById('chronologicalAge').value);
+            const gender = document.getElementById('gender').value;
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const heartRate = parseFloat(document.getElementById('heartRate').value);
+            const exercise = parseFloat(document.getElementById('exercise').value);
+            const sleep = parseFloat(document.getElementById('sleep').value);
+            const smoking = document.getElementById('smoking').value;
+            const alcohol = document.getElementById('alcohol').value;
+            const diet = document.getElementById('diet').value;
+            const stress = document.getElementById('stress').value;
+            const mentalActivity = document.getElementById('mentalActivity').value;
+            
+            // Check if all fields are filled
+            if (!chronoAge || !gender || !weight || !height || !heartRate || !exercise || 
+                !sleep || !smoking || !alcohol || !diet || !stress || !mentalActivity) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            // Calculate BMI
+            const bmiValue = weight / ((height/100) * (height/100));
+            
+            // Start with chronological age as base
+            let bioAge = chronoAge;
+            
+            // Adjust for BMI
+            if (bmiValue < 18.5) {
+                bioAge += 1; // Underweight
+            } else if (bmiValue >= 18.5 && bmiValue < 25) {
+                bioAge -= 1; // Normal weight
+            } else if (bmiValue >= 25 && bmiValue < 30) {
+                bioAge += 1; // Overweight
+            } else if (bmiValue >= 30) {
+                bioAge += 3; // Obese
+            }
+            
+            // Adjust for heart rate
+            if (gender === 'male') {
+                if (heartRate < 60) {
+                    bioAge -= 2; // Excellent
+                } else if (heartRate < 70) {
+                    bioAge -= 1; // Good
+                } else if (heartRate > 80) {
+                    bioAge += 2; // Poor
+                }
+            } else { // female - typically have slightly higher heart rates
+                if (heartRate < 65) {
+                    bioAge -= 2; // Excellent
+                } else if (heartRate < 75) {
+                    bioAge -= 1; // Good
+                } else if (heartRate > 85) {
+                    bioAge += 2; // Poor
+                }
+            }
+            
+            // Adjust for exercise
+            if (exercise >= 5) {
+                bioAge -= 3; // Very active
+            } else if (exercise >= 3) {
+                bioAge -= 2; // Active
+            } else if (exercise >= 1) {
+                bioAge -= 1; // Somewhat active
+            } else {
+                bioAge += 2; // Sedentary
+            }
+            
+            // Adjust for sleep
+            if (sleep >= 7 && sleep <= 9) {
+                bioAge -= 1; // Optimal sleep
+            } else if (sleep < 6 || sleep > 10) {
+                bioAge += 2; // Poor sleep
+            }
+            
+            // Adjust for smoking
+            if (smoking === 'regularly') {
+                bioAge += 5;
+            } else if (smoking === 'occasionally') {
+                bioAge += 2;
+            }
+            
+            // Adjust for alcohol
+            if (alcohol === 'heavy') {
+                bioAge += 3;
+            } else if (alcohol === 'moderate') {
+                bioAge += 1;
+            } else if (alcohol === 'light') {
+                bioAge -= 0.5;
+            }
+            
+            // Adjust for diet
+            if (diet === 'excellent') {
+                bioAge -= 2;
+            } else if (diet === 'good') {
+                bioAge -= 1;
+            } else if (diet === 'poor') {
+                bioAge += 2;
+            }
+            
+            // Adjust for stress
+            if (stress === 'severe') {
+                bioAge += 3;
+            } else if (stress === 'high') {
+                bioAge += 2;
+            } else if (stress === 'low') {
+                bioAge -= 1;
+            }
+            
+            // Adjust for mental activity
+            if (mentalActivity === 'high') {
+                bioAge -= 1.5;
+            } else if (mentalActivity === 'low') {
+                bioAge += 1;
+            }
+            
+            // Small adjustment for gender (based on average longevity differences)
+            if (gender === 'female') {
+                bioAge -= 0.5;
+            }
+            
+            // Ensure bio age is never negative
+            bioAge = Math.max(bioAge, 0);
+            
+            // Round to one decimal place
+            bioAge = Math.round(bioAge * 10) / 10;
+            
+            // Display results
+            document.getElementById('chronoResult').textContent = chronoAge;
+            document.getElementById('bioResult').textContent = bioAge;
+            
+            // Add interpretation
+            let interpretation = '';
+            const ageDifference = bioAge - chronoAge;
+            
+            if (ageDifference <= -5) {
+                interpretation = 'Excellent! Your biological age is significantly lower than your chronological age. Your lifestyle choices are having a very positive impact on your health.';
+            } else if (ageDifference < -2) {
+                interpretation = 'Great! Your biological age is lower than your chronological age. You are making good lifestyle choices.';
+            } else if (ageDifference >= -2 && ageDifference <= 2) {
+                interpretation = 'Your biological age is close to your chronological age, which is normal. There may be room for some lifestyle improvements.';
+            } else if (ageDifference > 2 && ageDifference <= 5) {
+                interpretation = 'Your biological age is higher than your chronological age. Consider making some lifestyle changes to improve your health.';
+            } else {
+                interpretation = 'Your biological age is significantly higher than your chronological age. It would be beneficial to discuss health improvements with a healthcare provider.';
+            }
+            
+            document.getElementById('interpretation').textContent = interpretation;
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

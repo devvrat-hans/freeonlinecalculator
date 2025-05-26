@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="100% Free tip calculator with no ads or signup requirements. Calculate tips quickly for restaurants, delivery, and services.">
+    <meta name="keywords" content="free tip calculator, no ads calculator, basic tip calculator, free online calculator, no signup calculator">
+    <title>Free Tip Calculator | No Ads | No Signup Required</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+            display: none;
+            border: 1px solid #ddd;
+        }
+        .tip-options {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0 20px;
+            flex-wrap: wrap;
+        }
+        .tip-option {
+            flex: 1 0 18%;
+            margin: 0 1% 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #fff;
+        }
+        .tip-option:hover {
+            background-color: #e9f2fb;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        .result-table th {
+            background-color: #f5f5f5;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .free-banner {
+            background-color: #e9f7ef;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #27ae60;
+        }
+        .highlight {
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Free Tip Calculator</h1>
+        <p>Quick, simple, and always free - no ads or signup required</p>
+    </header>
+
+    <main>
+        <div class="free-banner">
+            <p><span class="highlight">100% FREE</span> - This calculator is completely free to use. No ads, no signups, no hidden fees.</p>
+        </div>
+        
+        <section class="calculator">
+            <h2>Calculate Tip</h2>
+            <form id="tipForm">
+                <div class="form-group">
+                    <label for="billAmount">Bill Amount ($):</label>
+                    <input type="number" id="billAmount" name="billAmount" min="0.01" step="0.01" required placeholder="Enter bill amount">
+                </div>
+                
+                <div class="form-group">
+                    <label>Tip Percentage:</label>
+                    <div class="tip-options">
+                        <div class="tip-option" onclick="selectTip(10)" id="tip-10">10%</div>
+                        <div class="tip-option" onclick="selectTip(15)" id="tip-15">15%</div>
+                        <div class="tip-option" onclick="selectTip(18)" id="tip-18">18%</div>
+                        <div class="tip-option" onclick="selectTip(20)" id="tip-20">20%</div>
+                        <div class="tip-option" onclick="selectTip(25)" id="tip-25">25%</div>
+                    </div>
+                    <input type="number" id="customTipPercent" name="customTipPercent" min="0" max="100" placeholder="Or enter custom percentage" onchange="customTipSelected()">
+                </div>
+                
+                <div class="form-group">
+                    <label for="splitCount">Split Between:</label>
+                    <input type="number" id="splitCount" name="splitCount" min="1" value="1" placeholder="Number of people">
+                </div>
+                
+                <button type="button" onclick="calculateTip()">Calculate Tip</button>
+            </form>
+            
+            <div id="result" class="result">
+                <h3>Tip Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Bill Amount:</th>
+                        <td>$<span id="resultBillAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Tip Percentage:</th>
+                        <td><span id="resultTipPercent"></span>%</td>
+                    </tr>
+                    <tr>
+                        <th>Tip Amount:</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount:</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+                
+                <div id="splitResult" style="margin-top: 15px; display: none;">
+                    <h4>Bill Split Details (per person):</h4>
+                    <table class="result-table">
+                        <tr>
+                            <th>Bill per Person:</th>
+                            <td>$<span id="resultBillPerPerson"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Tip per Person:</th>
+                            <td>$<span id="resultTipPerPerson"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Total per Person:</th>
+                            <td>$<span id="resultTotalPerPerson"></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Why Our Free Tip Calculator?</h2>
+            <ul>
+                <li><strong>Completely Free:</strong> No signup, no ads, no hidden costs - ever.</li>
+                <li><strong>Simple and Fast:</strong> Calculate tips in seconds with minimal inputs.</li>
+                <li><strong>Bill Splitting:</strong> Easily divide bills among friends or family.</li>
+                <li><strong>Custom Tip Options:</strong> Choose standard percentages or set your own.</li>
+                <li><strong>Mobile-Friendly:</strong> Works perfectly on phones and tablets.</li>
+                <li><strong>No Downloads:</strong> Use directly in your browser without installing anything.</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Tipping Guide</h2>
+            <p>Not sure how much to tip? Here's a quick reference guide for common services:</p>
+            
+            <table class="result-table" style="margin-top: 15px;">
+                <tr>
+                    <th>Service Type</th>
+                    <th>Suggested Tip</th>
+                </tr>
+                <tr>
+                    <td>Restaurant Server</td>
+                    <td>15-20% of bill</td>
+                </tr>
+                <tr>
+                    <td>Food Delivery</td>
+                    <td>10-15% of order (minimum $3-5)</td>
+                </tr>
+                <tr>
+                    <td>Bartender</td>
+                    <td>$1-2 per drink or 15-20% of tab</td>
+                </tr>
+                <tr>
+                    <td>Hair Stylist</td>
+                    <td>15-20% of service</td>
+                </tr>
+                <tr>
+                    <td>Taxi/Rideshare Driver</td>
+                    <td>15-20% of fare</td>
+                </tr>
+                <tr>
+                    <td>Hotel Housekeeper</td>
+                    <td>$2-5 per night</td>
+                </tr>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+        <p>This calculator is 100% free and always will be.</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 15; // Default tip percentage
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('tip-' + percent).classList.add('selected');
+            
+            // Update the custom tip field and selected percentage
+            document.getElementById('customTipPercent').value = '';
+            selectedTipPercent = percent;
+        }
+        
+        // Function when custom tip is entered
+        function customTipSelected() {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Get custom tip value
+            const customTip = parseFloat(document.getElementById('customTipPercent').value);
+            if (!isNaN(customTip)) {
+                selectedTipPercent = customTip;
+            }
+        }
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const billAmount = parseFloat(document.getElementById('billAmount').value);
+            const splitCount = parseInt(document.getElementById('splitCount').value) || 1;
+            
+            // Validate bill amount
+            if (isNaN(billAmount) || billAmount <= 0) {
+                alert("Please enter a valid bill amount.");
+                return;
+            }
+            
+            // Calculate tip amount
+            const tipAmount = billAmount * (selectedTipPercent / 100);
+            
+            // Calculate total with tip
+            const totalAmount = billAmount + tipAmount;
+            
+            // Calculate per person amounts if splitting
+            const billPerPerson = billAmount / splitCount;
+            const tipPerPerson = tipAmount / splitCount;
+            const totalPerPerson = totalAmount / splitCount;
+            
+            // Display results
+            document.getElementById('resultBillAmount').textContent = formatMoney(billAmount);
+            document.getElementById('resultTipPercent').textContent = selectedTipPercent;
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show or hide split result section
+            if (splitCount > 1) {
+                document.getElementById('resultBillPerPerson').textContent = formatMoney(billPerPerson);
+                document.getElementById('resultTipPerPerson').textContent = formatMoney(tipPerPerson);
+                document.getElementById('resultTotalPerPerson').textContent = formatMoney(totalPerPerson);
+                document.getElementById('splitResult').style.display = 'block';
+            } else {
+                document.getElementById('splitResult').style.display = 'none';
+            }
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+
+        // Initialize the calculator with default selected tip
+        window.onload = function() {
+            selectTip(15);
+        };
+    </script>
+</body>
+</html>

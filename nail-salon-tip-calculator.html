@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online nail salon tip calculator. Calculate appropriate tips for manicures, pedicures, and other nail services quickly and easily.">
+    <meta name="keywords" content="nail salon tip calculator, manicure tip, pedicure tip, nail tech gratuity, nail service tip, free online calculator">
+    <title>Nail Salon Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0 20px;
+        }
+        .tip-option {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .tip-option:hover {
+            background-color: #e9f2fb;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Nail Salon Tip Calculator</h1>
+        <p>Calculate appropriate tips for manicures, pedicures, and other nail services</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Nail Salon Tip</h2>
+            <form id="tipForm">
+                <div class="form-group">
+                    <label for="serviceType">Service Type:</label>
+                    <select id="serviceType" name="serviceType" required>
+                        <option value="">Select a Service</option>
+                        <option value="basicManicure">Basic Manicure</option>
+                        <option value="gelManicure">Gel Manicure</option>
+                        <option value="acrylicFullSet">Acrylic Full Set</option>
+                        <option value="acrylicFill">Acrylic Fill</option>
+                        <option value="basicPedicure">Basic Pedicure</option>
+                        <option value="deluxePedicure">Deluxe Pedicure</option>
+                        <option value="maniPedi">Manicure & Pedicure Combo</option>
+                        <option value="nailArt">Nail Art/Designs</option>
+                        <option value="other">Other Service</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="servicePrice">Service Price ($):</label>
+                    <input type="number" id="servicePrice" name="servicePrice" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceQuality">Service Quality:</label>
+                    <select id="serviceQuality" name="serviceQuality" required>
+                        <option value="">Select</option>
+                        <option value="excellent">Excellent (25%)</option>
+                        <option value="great">Great (20%)</option>
+                        <option value="good">Good (18%)</option>
+                        <option value="average">Average (15%)</option>
+                        <option value="belowAverage">Below Average (10%)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Custom Tip Percentage:</label>
+                    <div class="tip-options">
+                        <div class="tip-option" onclick="selectTip(15)" id="tip-15">15%</div>
+                        <div class="tip-option" onclick="selectTip(18)" id="tip-18">18%</div>
+                        <div class="tip-option" onclick="selectTip(20)" id="tip-20">20%</div>
+                        <div class="tip-option" onclick="selectTip(25)" id="tip-25">25%</div>
+                        <div class="tip-option" onclick="selectTip(30)" id="tip-30">30%</div>
+                    </div>
+                    <input type="number" id="customTipPercent" name="customTipPercent" min="0" max="100" placeholder="Or enter custom percentage" onchange="customTipSelected()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Additional Factors:</label>
+                    <div>
+                        <input type="checkbox" id="extraTime" name="extraTime">
+                        <label for="extraTime" style="display:inline;">Extra time or attention required</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="complexDesign" name="complexDesign">
+                        <label for="complexDesign" style="display:inline;">Complex nail art or design</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="repairWork" name="repairWork">
+                        <label for="repairWork" style="display:inline;">Repair work included</label>
+                    </div>
+                </div>
+                
+                <button type="button" onclick="calculateTip()">Calculate Tip</button>
+            </form>
+            
+            <div id="result" class="result">
+                <h3>Tip Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Service Price:</th>
+                        <td>$<span id="resultServicePrice"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Tip Percentage:</th>
+                        <td><span id="resultTipPercent"></span>%</td>
+                    </tr>
+                    <tr>
+                        <th>Recommended Tip:</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount:</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Nail Salon Tipping Guide</h2>
+            <p>Tipping at nail salons is customary and an important part of nail technicians' income. The standard tipping range for nail services is typically 15-20% of the service price, but can vary based on several factors:</p>
+            
+            <h3>Suggested Tip Percentages by Service</h3>
+            <ul>
+                <li><strong>Basic Manicure or Pedicure:</strong> 15-20%</li>
+                <li><strong>Gel Manicure:</strong> 18-20%</li>
+                <li><strong>Acrylic Nails (Full Set):</strong> 20-25%</li>
+                <li><strong>Acrylic Fill:</strong> 18-20%</li>
+                <li><strong>Deluxe Pedicure:</strong> 20-25%</li>
+                <li><strong>Nail Art or Complex Designs:</strong> 25-30%</li>
+                <li><strong>Manicure and Pedicure Combo:</strong> 18-20%</li>
+            </ul>
+            
+            <p>For exceptional service, detailed work, or complex designs, tipping on the higher end of these ranges is appreciated.</p>
+        </section>
+        
+        <section>
+            <h2>Factors to Consider When Tipping</h2>
+            <ul>
+                <li><strong>Service Quality:</strong> Was the technician professional, attentive, and skilled?</li>
+                <li><strong>Time Spent:</strong> Did your service require extra time or attention?</li>
+                <li><strong>Complexity:</strong> Was nail art or intricate design work involved?</li>
+                <li><strong>Corrections:</strong> Did the technician fix issues or make adjustments to ensure satisfaction?</li>
+                <li><strong>Additional Services:</strong> Were extra services provided that weren't charged separately?</li>
+                <li><strong>Salon Type:</strong> Higher-end salons may have higher standard tip percentages</li>
+                <li><strong>Holiday or Special Occasion:</strong> Consider tipping more during busy periods like holidays</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Nail Salon Tipping Etiquette</h2>
+            <p>For the best experience at nail salons:</p>
+            <ul>
+                <li><strong>Tip Directly to Your Technician:</strong> When possible, give the tip directly to the person who served you</li>
+                <li><strong>Cash is Preferred:</strong> While many salons accept tips on credit cards, cash ensures your technician receives the full amount immediately</li>
+                <li><strong>Multiple Technicians:</strong> If different people did your manicure and pedicure, split the tip accordingly</li>
+                <li><strong>Salon Owner:</strong> It's traditionally not required to tip the salon owner, but it's still appreciated for good service</li>
+                <li><strong>Regular Clients:</strong> Consider giving larger tips around holidays if you're a regular client</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 0;
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('tip-' + percent).classList.add('selected');
+            
+            // Update the custom tip field and selected percentage
+            document.getElementById('customTipPercent').value = '';
+            selectedTipPercent = percent;
+            
+            // If service quality dropdown is set, clear it
+            document.getElementById('serviceQuality').value = '';
+        }
+        
+        // Function when custom tip is entered
+        function customTipSelected() {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Get custom tip value
+            const customTip = parseFloat(document.getElementById('customTipPercent').value);
+            if (!isNaN(customTip)) {
+                selectedTipPercent = customTip;
+            }
+            
+            // Clear service quality selection
+            document.getElementById('serviceQuality').value = '';
+        }
+        
+        // Service type change handler to recommend tip percent
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('serviceType').addEventListener('change', function() {
+                const serviceType = this.value;
+                let recommendedTip = 15;
+                
+                switch(serviceType) {
+                    case 'basicManicure':
+                        recommendedTip = 15;
+                        break;
+                    case 'gelManicure':
+                        recommendedTip = 18;
+                        break;
+                    case 'acrylicFullSet':
+                        recommendedTip = 20;
+                        break;
+                    case 'acrylicFill':
+                        recommendedTip = 18;
+                        break;
+                    case 'basicPedicure':
+                        recommendedTip = 15;
+                        break;
+                    case 'deluxePedicure':
+                        recommendedTip = 20;
+                        break;
+                    case 'maniPedi':
+                        recommendedTip = 18;
+                        break;
+                    case 'nailArt':
+                        recommendedTip = 25;
+                        break;
+                    default:
+                        recommendedTip = 18;
+                }
+                
+                selectTip(recommendedTip);
+            });
+        });
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const servicePrice = parseFloat(document.getElementById('servicePrice').value);
+            const serviceQuality = document.getElementById('serviceQuality').value;
+            const extraTime = document.getElementById('extraTime').checked;
+            const complexDesign = document.getElementById('complexDesign').checked;
+            const repairWork = document.getElementById('repairWork').checked;
+            
+            // Validate service price
+            if (isNaN(servicePrice) || servicePrice <= 0) {
+                alert("Please enter a valid service price.");
+                return;
+            }
+            
+            // Determine tip percentage based on inputs
+            let tipPercent = selectedTipPercent;
+            
+            // If service quality is selected, override the tip percent
+            if (serviceQuality) {
+                switch (serviceQuality) {
+                    case 'excellent':
+                        tipPercent = 25;
+                        break;
+                    case 'great':
+                        tipPercent = 20;
+                        break;
+                    case 'good':
+                        tipPercent = 18;
+                        break;
+                    case 'average':
+                        tipPercent = 15;
+                        break;
+                    case 'belowAverage':
+                        tipPercent = 10;
+                        break;
+                }
+                
+                // Update the UI to show selected percentage
+                document.querySelectorAll('.tip-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                if (tipPercent === 15) document.getElementById('tip-15').classList.add('selected');
+                if (tipPercent === 18) document.getElementById('tip-18').classList.add('selected');
+                if (tipPercent === 20) document.getElementById('tip-20').classList.add('selected');
+                if (tipPercent === 25) document.getElementById('tip-25').classList.add('selected');
+                if (tipPercent === 30) document.getElementById('tip-30').classList.add('selected');
+            }
+            
+            // Adjust tip for additional factors
+            let tipAdjustment = 0;
+            if (extraTime) tipAdjustment += 2;
+            if (complexDesign) tipAdjustment += 3;
+            if (repairWork) tipAdjustment += 2;
+            
+            tipPercent += tipAdjustment;
+            
+            // If no tip percentage is selected or calculated, use default
+            if (tipPercent === 0) {
+                tipPercent = 15;
+            }
+            
+            // Calculate tip amount
+            const tipAmount = servicePrice * (tipPercent / 100);
+            
+            // Calculate total with tip
+            const totalAmount = servicePrice + tipAmount;
+            
+            // Display results
+            document.getElementById('resultServicePrice').textContent = formatMoney(servicePrice);
+            document.getElementById('resultTipPercent').textContent = tipPercent;
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

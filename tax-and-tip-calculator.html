@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online tax and tip calculator. Calculate both sales tax and tips in one place for accurate bill totals including all charges.">
+    <meta name="keywords" content="tax and tip calculator, sales tax calculator, tip with tax, restaurant bill calculator, total bill calculator, free online calculator">
+    <title>Tax and Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0 20px;
+        }
+        .tip-option {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .tip-option:hover {
+            background-color: #e9f2fb;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .radio-group {
+            display: flex;
+            margin-top: 5px;
+        }
+        .radio-option {
+            margin-right: 20px;
+        }
+        .radio-option input {
+            width: auto;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tax and Tip Calculator</h1>
+        <p>Calculate both sales tax and tip amounts in one place</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Tax and Tip</h2>
+            <form id="taxTipForm">
+                <div class="form-group">
+                    <label for="billAmount">Bill Amount (Before Tax):</label>
+                    <input type="number" id="billAmount" name="billAmount" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="taxRate">Sales Tax Rate (%):</label>
+                    <input type="number" id="taxRate" name="taxRate" min="0" step="0.1" required placeholder="Enter local tax rate">
+                </div>
+                
+                <div class="form-group">
+                    <label>Tip Calculation Method:</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="tipMethod" value="preTax" checked> Tip on pre-tax amount
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="tipMethod" value="postTax"> Tip on post-tax amount
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tip Percentage:</label>
+                    <div class="tip-options">
+                        <div class="tip-option" onclick="selectTip(10)" id="tip-10">10%</div>
+                        <div class="tip-option" onclick="selectTip(15)" id="tip-15">15%</div>
+                        <div class="tip-option" onclick="selectTip(18)" id="tip-18">18%</div>
+                        <div class="tip-option" onclick="selectTip(20)" id="tip-20">20%</div>
+                        <div class="tip-option" onclick="selectTip(25)" id="tip-25">25%</div>
+                    </div>
+                    <input type="number" id="customTipPercent" name="customTipPercent" min="0" max="100" placeholder="Or enter custom percentage" onchange="customTipSelected()">
+                </div>
+                
+                <div class="form-group">
+                    <label for="splitCount">Split Between:</label>
+                    <input type="number" id="splitCount" name="splitCount" min="1" value="1">
+                </div>
+                
+                <button type="button" onclick="calculateTaxAndTip()">Calculate Total</button>
+            </form>
+            
+            <div id="result" class="result">
+                <h3>Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Bill Amount (Before Tax):</th>
+                        <td>$<span id="resultBillAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Sales Tax (<span id="resultTaxRate"></span>%):</th>
+                        <td>$<span id="resultTaxAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Bill Amount (With Tax):</th>
+                        <td>$<span id="resultBillWithTax"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Tip (<span id="resultTipPercent"></span>%):</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount:</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+                
+                <div id="splitResult" style="margin-top: 15px; display: none;">
+                    <h4>Bill Split Details (per person):</h4>
+                    <table class="result-table">
+                        <tr>
+                            <th>Bill + Tax per Person:</th>
+                            <td>$<span id="resultBillTaxPerPerson"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Tip per Person:</th>
+                            <td>$<span id="resultTipPerPerson"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Total per Person:</th>
+                            <td>$<span id="resultTotalPerPerson"></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>About the Tax and Tip Calculator</h2>
+            <p>This calculator helps you determine the total cost of your bill by calculating both the sales tax and the tip in one easy step. It's particularly useful for restaurant bills and other service-related expenses where both tax and gratuity need to be added.</p>
+            <p>Whether you prefer to tip on the pre-tax amount or the post-tax total, this calculator gives you both options so you can calculate your final bill exactly how you prefer.</p>
+        </section>
+        
+        <section>
+            <h2>How to Use This Calculator</h2>
+            <ol>
+                <li>Enter the pre-tax bill amount</li>
+                <li>Enter your local sales tax rate (varies by location)</li>
+                <li>Choose whether to calculate tip based on pre-tax or post-tax amount</li>
+                <li>Select or enter your preferred tip percentage</li>
+                <li>If splitting the bill, enter the number of people</li>
+                <li>Click "Calculate Total" to see your breakdown</li>
+            </ol>
+        </section>
+        
+        <section>
+            <h2>Pre-Tax vs. Post-Tax Tipping</h2>
+            <p>There are two common methods for calculating tips:</p>
+            <ul>
+                <li><strong>Pre-Tax Tip:</strong> Calculating the tip based on the bill amount before taxes are added. This is technically the traditional and correct method, as tax is a government charge, not a service fee.</li>
+                <li><strong>Post-Tax Tip:</strong> Calculating the tip based on the total bill including taxes. This results in a slightly higher tip and is simpler to calculate when looking at the final bill total.</li>
+            </ul>
+            <p>This calculator allows you to choose your preferred method. The difference is typically small but can add up for large bills or in areas with high tax rates.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 15; // Default to 15%
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('tip-' + percent).classList.add('selected');
+            
+            // Update the custom tip field and selected percentage
+            document.getElementById('customTipPercent').value = '';
+            selectedTipPercent = percent;
+        }
+        
+        // Function when custom tip is entered
+        function customTipSelected() {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Get custom tip value
+            const customTip = parseFloat(document.getElementById('customTipPercent').value);
+            if (!isNaN(customTip)) {
+                selectedTipPercent = customTip;
+            }
+        }
+        
+        // Initialize the first tip option as selected
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('tip-15').classList.add('selected');
+        });
+        
+        // Calculate tax and tip based on inputs
+        function calculateTaxAndTip() {
+            // Get input values
+            const billAmount = parseFloat(document.getElementById('billAmount').value);
+            const taxRate = parseFloat(document.getElementById('taxRate').value);
+            const splitCount = parseInt(document.getElementById('splitCount').value) || 1;
+            const tipMethod = document.querySelector('input[name="tipMethod"]:checked').value;
+            
+            // Validate inputs
+            if (isNaN(billAmount) || billAmount <= 0) {
+                alert("Please enter a valid bill amount.");
+                return;
+            }
+            
+            if (isNaN(taxRate) || taxRate < 0) {
+                alert("Please enter a valid tax rate.");
+                return;
+            }
+            
+            // Calculate tax amount
+            const taxAmount = billAmount * (taxRate / 100);
+            
+            // Calculate bill with tax
+            const billWithTax = billAmount + taxAmount;
+            
+            // Calculate tip amount based on selected method
+            let tipAmount;
+            if (tipMethod === 'preTax') {
+                tipAmount = billAmount * (selectedTipPercent / 100);
+            } else {
+                tipAmount = billWithTax * (selectedTipPercent / 100);
+            }
+            
+            // Calculate total with tip
+            const totalAmount = billWithTax + tipAmount;
+            
+            // Calculate per person amounts if splitting
+            const billTaxPerPerson = billWithTax / splitCount;
+            const tipPerPerson = tipAmount / splitCount;
+            const totalPerPerson = totalAmount / splitCount;
+            
+            // Display results
+            document.getElementById('resultBillAmount').textContent = formatMoney(billAmount);
+            document.getElementById('resultTaxRate').textContent = taxRate;
+            document.getElementById('resultTaxAmount').textContent = formatMoney(taxAmount);
+            document.getElementById('resultBillWithTax').textContent = formatMoney(billWithTax);
+            document.getElementById('resultTipPercent').textContent = selectedTipPercent;
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show or hide split result section
+            if (splitCount > 1) {
+                document.getElementById('resultBillTaxPerPerson').textContent = formatMoney(billTaxPerPerson);
+                document.getElementById('resultTipPerPerson').textContent = formatMoney(tipPerPerson);
+                document.getElementById('resultTotalPerPerson').textContent = formatMoney(totalPerPerson);
+                document.getElementById('splitResult').style.display = 'block';
+            } else {
+                document.getElementById('splitResult').style.display = 'none';
+            }
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

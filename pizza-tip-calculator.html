@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online pizza tip calculator. Calculate appropriate tips for pizza delivery and dine-in orders based on order size and service quality.">
+    <meta name="keywords" content="pizza tip calculator, pizza delivery tip, pizza dine-in tip, food delivery, free online calculator">
+    <title>Pizza Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0 20px;
+        }
+        .tip-option {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .tip-option:hover {
+            background-color: #e9f2fb;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .delivery-type {
+            margin-bottom: 20px;
+        }
+        .delivery-type label {
+            display: inline-block;
+            margin-right: 15px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pizza Tip Calculator</h1>
+        <p>Calculate appropriate tips for pizza delivery and dine-in orders</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Pizza Tip</h2>
+            <form id="tipForm">
+                <div class="delivery-type">
+                    <label>Order Type:</label>
+                    <label>
+                        <input type="radio" name="orderType" value="delivery" checked> Delivery
+                    </label>
+                    <label>
+                        <input type="radio" name="orderType" value="dineIn"> Dine In
+                    </label>
+                    <label>
+                        <input type="radio" name="orderType" value="takeout"> Takeout
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="billAmount">Order Amount ($):</label>
+                    <input type="number" id="billAmount" name="billAmount" min="0.01" step="0.01" required>
+                </div>
+
+                <div class="form-group" id="distanceGroup">
+                    <label for="distance">Delivery Distance (miles):</label>
+                    <input type="number" id="distance" name="distance" min="0" step="0.1" value="2">
+                    <small>For delivery orders only</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceQuality">Service Quality:</label>
+                    <select id="serviceQuality" name="serviceQuality">
+                        <option value="">Select</option>
+                        <option value="excellent">Excellent (20%)</option>
+                        <option value="good">Good (18%)</option>
+                        <option value="standard">Standard (15%)</option>
+                        <option value="fair">Fair (10%)</option>
+                        <option value="poor">Poor (5-10%)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Custom Tip Percentage:</label>
+                    <div class="tip-options">
+                        <div class="tip-option" onclick="selectTip(10)" id="tip-10">10%</div>
+                        <div class="tip-option" onclick="selectTip(15)" id="tip-15">15%</div>
+                        <div class="tip-option" onclick="selectTip(18)" id="tip-18">18%</div>
+                        <div class="tip-option" onclick="selectTip(20)" id="tip-20">20%</div>
+                        <div class="tip-option" onclick="selectTip(25)" id="tip-25">25%</div>
+                    </div>
+                    <input type="number" id="customTipPercent" name="customTipPercent" min="0" max="100" placeholder="Or enter custom percentage" onchange="customTipSelected()">
+                </div>
+                
+                <button type="button" onclick="calculateTip()">Calculate Tip</button>
+            </form>
+            
+            <div id="result" class="result">
+                <h3>Tip Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Order Amount:</th>
+                        <td>$<span id="resultBillAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Tip Percentage:</th>
+                        <td><span id="resultTipPercent"></span>%</td>
+                    </tr>
+                    <tr>
+                        <th>Tip Amount:</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount:</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>About Pizza Tipping Etiquette</h2>
+            <p>Tipping for pizza service varies depending on whether you're having pizza delivered to your home or dining in at a pizzeria. Understanding the appropriate tipping guidelines helps ensure fair compensation for service workers.</p>
+        </section>
+        
+        <section>
+            <h2>Pizza Tipping Guidelines</h2>
+            <h3>For Pizza Delivery:</h3>
+            <ul>
+                <li><strong>Standard Tip (15-20%):</strong> For normal delivery with good service and timing</li>
+                <li><strong>Additional Considerations:</strong> Add $1-2 for:
+                    <ul>
+                        <li>Difficult weather conditions (rain, snow, extreme heat)</li>
+                        <li>Deliveries to locations that are hard to find or access</li>
+                        <li>Large or complicated orders</li>
+                        <li>Distances greater than 5 miles</li>
+                    </ul>
+                </li>
+                <li><strong>Minimum Tip:</strong> Consider a minimum $3-5 tip even for small orders</li>
+            </ul>
+            
+            <h3>For Dine-In Pizza Service:</h3>
+            <ul>
+                <li><strong>Full-Service Restaurant (15-20%):</strong> Follow standard restaurant tipping guidelines</li>
+                <li><strong>Buffet or Counter Service (10-15%):</strong> Tip on the lower end for minimal service</li>
+            </ul>
+            
+            <h3>For Takeout:</h3>
+            <ul>
+                <li><strong>Optional (0-10%):</strong> While not required, a small tip of 5-10% is appreciated for complex orders or excellent service</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Pizza Tipping FAQs</h2>
+            <h3>Should I tip if there's already a delivery fee?</h3>
+            <p>Yes. Delivery fees typically go to the restaurant to cover operational costs, not directly to drivers. Drivers still rely on tips as a significant part of their income.</p>
+            
+            <h3>How much should I tip for a large pizza party order?</h3>
+            <p>For large orders (over $100), the standard percentage guidelines still apply. A 15-20% tip is appropriate, though some people choose to cap very large tips at a reasonable amount.</p>
+            
+            <h3>What if my pizza arrives cold or very late?</h3>
+            <p>If service issues are the fault of the driver, a reduced tip of 10% may be appropriate. However, if problems are likely due to the restaurant, consider contacting the manager rather than reducing the driver's tip.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 0;
+        
+        // Hide/show distance field based on order type
+        document.querySelectorAll('input[name="orderType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'delivery') {
+                    document.getElementById('distanceGroup').style.display = 'block';
+                } else {
+                    document.getElementById('distanceGroup').style.display = 'none';
+                }
+            });
+        });
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('tip-' + percent).classList.add('selected');
+            
+            // Update the custom tip field and selected percentage
+            document.getElementById('customTipPercent').value = '';
+            selectedTipPercent = percent;
+            
+            // If service quality dropdown is set, clear it
+            document.getElementById('serviceQuality').value = '';
+        }
+        
+        // Function when custom tip is entered
+        function customTipSelected() {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Get custom tip value
+            const customTip = parseFloat(document.getElementById('customTipPercent').value);
+            if (!isNaN(customTip)) {
+                selectedTipPercent = customTip;
+            }
+            
+            // Clear service quality selection
+            document.getElementById('serviceQuality').value = '';
+        }
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const billAmount = parseFloat(document.getElementById('billAmount').value);
+            const serviceQuality = document.getElementById('serviceQuality').value;
+            const orderType = document.querySelector('input[name="orderType"]:checked').value;
+            const distance = parseFloat(document.getElementById('distance').value) || 0;
+            
+            // Validate bill amount
+            if (isNaN(billAmount) || billAmount <= 0) {
+                alert("Please enter a valid order amount.");
+                return;
+            }
+            
+            // Determine tip percentage based on inputs
+            let tipPercent = selectedTipPercent;
+            
+            // If service quality is selected, override the tip percent
+            if (serviceQuality) {
+                switch (serviceQuality) {
+                    case 'excellent':
+                        tipPercent = 20;
+                        break;
+                    case 'good':
+                        tipPercent = 18;
+                        break;
+                    case 'standard':
+                        tipPercent = 15;
+                        break;
+                    case 'fair':
+                        tipPercent = 10;
+                        break;
+                    case 'poor':
+                        tipPercent = 7;
+                        break;
+                }
+                
+                // Update the UI to show selected percentage
+                document.querySelectorAll('.tip-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+            }
+            
+            // If no tip percentage is selected, use default based on order type
+            if (tipPercent === 0) {
+                if (orderType === 'delivery') {
+                    tipPercent = 15;
+                } else if (orderType === 'dineIn') {
+                    tipPercent = 18;
+                } else { // takeout
+                    tipPercent = 10;
+                }
+            }
+            
+            // For delivery, consider adding extra for long distances
+            let extraTip = 0;
+            if (orderType === 'delivery' && distance > 5) {
+                extraTip = 2; // Add $2 for long distances
+            }
+            
+            // Calculate tip amount
+            let tipAmount = (billAmount * (tipPercent / 100)) + extraTip;
+            
+            // Ensure minimum tip for delivery
+            if (orderType === 'delivery' && tipAmount < 3 && billAmount > 10) {
+                tipAmount = 3;
+                tipPercent = ((tipAmount - extraTip) / billAmount) * 100;
+            }
+            
+            // Calculate total with tip
+            const totalAmount = billAmount + tipAmount;
+            
+            // Display results
+            document.getElementById('resultBillAmount').textContent = formatMoney(billAmount);
+            document.getElementById('resultTipPercent').textContent = formatMoney(tipPercent);
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+
+        // Initialize page - hide distance for non-delivery options
+        window.onload = function() {
+            const orderType = document.querySelector('input[name="orderType"]:checked').value;
+            if (orderType !== 'delivery') {
+                document.getElementById('distanceGroup').style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>

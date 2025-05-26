@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online metabolic age calculator. Find out if your body is aging faster or slower than your actual age based on your metabolic rate.">
+    <meta name="keywords" content="metabolic age calculator, BMR calculator, metabolism age, metabolic health, free online calculator, basal metabolic rate">
+    <title>Metabolic Age Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Metabolic Age Calculator</h1>
+        <p>Find out your metabolic age based on your basal metabolic rate (BMR)</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Your Metabolic Age</h2>
+            <form id="metabolicForm">
+                <div class="form-group">
+                    <label for="age">Chronological Age:</label>
+                    <input type="number" id="age" name="age" min="18" max="120" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="weight">Weight (kg):</label>
+                    <input type="number" id="weight" name="weight" min="30" max="300" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="height">Height (cm):</label>
+                    <input type="number" id="height" name="height" min="100" max="250" required>
+                </div>
+                <div class="form-group">
+                    <label for="activityLevel">Activity Level:</label>
+                    <select id="activityLevel" name="activityLevel" required>
+                        <option value="">Select</option>
+                        <option value="sedentary">Sedentary (little or no exercise)</option>
+                        <option value="light">Lightly active (light exercise 1-3 days/week)</option>
+                        <option value="moderate">Moderately active (moderate exercise 3-5 days/week)</option>
+                        <option value="active">Active (hard exercise 6-7 days/week)</option>
+                        <option value="veryActive">Very active (very hard exercise & physical job or 2x training)</option>
+                    </select>
+                </div>
+                <button type="button" onclick="calculateMetabolicAge()">Calculate Metabolic Age</button>
+            </form>
+            <div id="result" class="result">
+                <h3>Your Results</h3>
+                <p>Chronological Age: <span id="chronoResult"></span></p>
+                <p>Basal Metabolic Rate (BMR): <span id="bmrResult"></span> calories/day</p>
+                <p>Metabolic Age: <span id="metabolicResult"></span></p>
+                <p id="interpretation"></p>
+            </div>
+        </section>
+
+        <section>
+            <h2>What Is Metabolic Age?</h2>
+            <p>Metabolic age is a comparison of your Basal Metabolic Rate (BMR) to the average BMR of people of your chronological age. Your BMR represents the minimum number of calories your body needs to perform basic functions while at rest.</p>
+            <p>If your metabolic age is lower than your actual age, it suggests that your body is in better metabolic health than the average person your age. Conversely, if your metabolic age is higher than your chronological age, it may indicate that improvements in diet, exercise, or other lifestyle factors could benefit your metabolic health.</p>
+        </section>
+        
+        <section>
+            <h2>Why Calculate Your Metabolic Age?</h2>
+            <p>Understanding your metabolic age can provide valuable insights:</p>
+            <ul>
+                <li><strong>Health Assessment:</strong> It's an indicator of your overall metabolic health</li>
+                <li><strong>Fitness Goals:</strong> Helps track progress in improving body composition</li>
+                <li><strong>Nutrition Planning:</strong> Provides a basis for determining caloric needs</li>
+                <li><strong>Lifestyle Feedback:</strong> Offers a metric to gauge the effectiveness of lifestyle changes</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>How to Improve Your Metabolic Age</h2>
+            <p>If your metabolic age is higher than your chronological age, consider these strategies to improve it:</p>
+            <ol>
+                <li><strong>Increase Muscle Mass:</strong> Muscle tissue burns more calories at rest than fat tissue</li>
+                <li><strong>Regular Exercise:</strong> Both cardiovascular and resistance training can boost metabolism</li>
+                <li><strong>Adequate Protein:</strong> Sufficient protein intake helps maintain and build muscle mass</li>
+                <li><strong>Stay Hydrated:</strong> Proper hydration is essential for optimal metabolic function</li>
+                <li><strong>Quality Sleep:</strong> Poor sleep negatively impacts metabolic health</li>
+                <li><strong>Manage Stress:</strong> Chronic stress can disrupt hormonal balance affecting metabolism</li>
+                <li><strong>Regular Meals:</strong> Consistent meal timing can help regulate metabolic processes</li>
+            </ol>
+        </section>
+        
+        <section>
+            <h2>How Metabolic Age Is Calculated</h2>
+            <p>The calculation of metabolic age involves several steps:</p>
+            <ol>
+                <li>First, your Basal Metabolic Rate (BMR) is calculated using the Mifflin-St Jeor equation, which takes into account your weight, height, age, and gender</li>
+                <li>Then, your BMR is compared to a reference table of average BMR values by age and gender</li>
+                <li>Your metabolic age is the age whose reference BMR most closely matches your calculated BMR</li>
+            </ol>
+            <p>This provides a simple way to understand how your metabolism compares to population averages at different ages.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        function calculateMetabolicAge() {
+            // Get form values
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const activityLevel = document.getElementById('activityLevel').value;
+            
+            // Check if all fields are filled
+            if (!age || !gender || !weight || !height || !activityLevel) {
+                alert("Please fill out all fields.");
+                return;
+            }
+            
+            // Calculate BMR using Mifflin-St Jeor Equation
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+            
+            // Round BMR to nearest whole number
+            bmr = Math.round(bmr);
+            
+            // Calculate metabolic age using reference BMR values
+            // These are simplified average BMR values by age based on population studies
+            let metabolicAge;
+            
+            // Reference BMR values by age (simplified averages)
+            const maleBMRbyAge = {
+                20: 1700, 25: 1650, 30: 1600, 35: 1550, 40: 1500,
+                45: 1450, 50: 1400, 55: 1350, 60: 1300, 65: 1250,
+                70: 1200, 75: 1150, 80: 1100
+            };
+            
+            const femaleBMRbyAge = {
+                20: 1400, 25: 1380, 30: 1350, 35: 1330, 40: 1300,
+                45: 1280, 50: 1250, 55: 1220, 60: 1200, 65: 1180,
+                70: 1150, 75: 1130, 80: 1100
+            };
+            
+            // Select reference table based on gender
+            const referenceTable = gender === 'male' ? maleBMRbyAge : femaleBMRbyAge;
+            const ageKeys = Object.keys(referenceTable).map(Number);
+            
+            // Find the age with the closest BMR value
+            let closestAge = ageKeys[0];
+            let minDiff = Math.abs(bmr - referenceTable[closestAge]);
+            
+            for (let i = 1; i < ageKeys.length; i++) {
+                const currentAge = ageKeys[i];
+                const currentDiff = Math.abs(bmr - referenceTable[currentAge]);
+                
+                if (currentDiff < minDiff) {
+                    minDiff = currentDiff;
+                    closestAge = currentAge;
+                }
+            }
+            
+            metabolicAge = closestAge;
+            
+            // Adjust based on activity level
+            if (activityLevel === 'sedentary') {
+                metabolicAge += 5;
+            } else if (activityLevel === 'light') {
+                metabolicAge += 2;
+            } else if (activityLevel === 'moderate') {
+                // No adjustment for moderate
+            } else if (activityLevel === 'active') {
+                metabolicAge -= 3;
+            } else if (activityLevel === 'veryActive') {
+                metabolicAge -= 5;
+            }
+            
+            // Ensure metabolic age is not unreasonably low
+            metabolicAge = Math.max(18, metabolicAge);
+            
+            // Display results
+            document.getElementById('chronoResult').textContent = age;
+            document.getElementById('bmrResult').textContent = bmr;
+            document.getElementById('metabolicResult').textContent = metabolicAge;
+            
+            // Add interpretation
+            let interpretation = '';
+            const ageDifference = metabolicAge - age;
+            
+            if (ageDifference <= -10) {
+                interpretation = 'Excellent! Your metabolic age is significantly lower than your chronological age. This suggests your body is metabolically much younger than your years.';
+            } else if (ageDifference < -5) {
+                interpretation = 'Great! Your metabolic age is lower than your chronological age. Your metabolism is functioning better than average for someone your age.';
+            } else if (ageDifference >= -5 && ageDifference <= 5) {
+                interpretation = 'Your metabolic age is close to your chronological age, which is normal. Your metabolism is functioning as expected for someone your age.';
+            } else if (ageDifference > 5 && ageDifference <= 10) {
+                interpretation = 'Your metabolic age is higher than your chronological age. Consider adjusting your diet and exercise habits to improve your metabolic health.';
+            } else {
+                interpretation = 'Your metabolic age is significantly higher than your chronological age. It would be beneficial to focus on improving your metabolic health through lifestyle changes.';
+            }
+            
+            document.getElementById('interpretation').textContent = interpretation;
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

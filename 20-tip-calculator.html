@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online 20% tip calculator. Quickly calculate a standard 20% tip for restaurants and services with this simple calculator.">
+    <meta name="keywords" content="20 percent tip calculator, 20 tip calculator, twenty percent tip, standard tip calculator, free online calculator">
+    <title>20% Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        .highlight {
+            background-color: #e9f2fb;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .calculator-header {
+            background-color: #0066cc;
+            color: white;
+            padding: 15px;
+            border-radius: 5px 5px 0 0;
+            margin: -20px -20px 20px -20px;
+            text-align: center;
+        }
+        .calculator-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .calculator-header .percentage {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 10px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>20% Tip Calculator</h1>
+        <p>Quick standard 20% tip calculations for restaurants and services</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <div class="calculator-header">
+                <h2>Standard Tip Calculator</h2>
+                <div class="percentage">20%</div>
+            </div>
+            
+            <form id="tipForm">
+                <div class="form-group">
+                    <label for="billAmount">Bill Amount ($):</label>
+                    <input type="number" id="billAmount" name="billAmount" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="splitCount">Split Between:</label>
+                    <input type="number" id="splitCount" name="splitCount" min="1" value="1">
+                </div>
+                
+                <button type="button" onclick="calculateTip()">Calculate 20% Tip</button>
+            </form>
+            
+            <div id="result" class="result">
+                <h3>Tip Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Bill Amount:</th>
+                        <td>$<span id="resultBillAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Tip Percentage:</th>
+                        <td>20%</td>
+                    </tr>
+                    <tr class="highlight">
+                        <th>Tip Amount:</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr class="highlight">
+                        <th>Total Amount:</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+                
+                <div id="splitResult" style="margin-top: 15px; display: none;">
+                    <h4>Bill Split Details (per person):</h4>
+                    <table class="result-table">
+                        <tr>
+                            <th>Bill per Person:</th>
+                            <td>$<span id="resultBillPerPerson"></span></td>
+                        </tr>
+                        <tr>
+                            <th>Tip per Person:</th>
+                            <td>$<span id="resultTipPerPerson"></span></td>
+                        </tr>
+                        <tr class="highlight">
+                            <th>Total per Person:</th>
+                            <td>$<span id="resultTotalPerPerson"></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Why 20% Is the Standard Tip</h2>
+            <p>A 20% tip has become the standard for good service in many places, especially in the United States. Here's why:</p>
+            <ul>
+                <li><strong>Fair Compensation:</strong> It reflects the value of good service in the modern economy</li>
+                <li><strong>Simple Calculation:</strong> It's easy to calculate (move the decimal point one place left, then double)</li>
+                <li><strong>Service Industry Standards:</strong> Many service workers rely on tips as a significant portion of their income</li>
+                <li><strong>Rising Costs:</strong> As the cost of living increases, tip percentages have gradually increased from 15% to 20%</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>How to Calculate a 20% Tip Manually</h2>
+            <p>Calculating a 20% tip without a calculator is simple:</p>
+            <ol>
+                <li>Move the decimal point one place to the left (divide by 10)</li>
+                <li>Multiply that amount by 2</li>
+            </ol>
+            <p><strong>Example:</strong> For a $45.00 bill:</p>
+            <ul>
+                <li>10% of $45.00 is $4.50</li>
+                <li>Double that amount: $4.50 × 2 = $9.00</li>
+                <li>The 20% tip is $9.00</li>
+                <li>Total bill with tip: $45.00 + $9.00 = $54.00</li>
+            </ul>
+            <p>This calculator automates this process for you, handling the math and even splitting the bill if needed.</p>
+        </section>
+        
+        <section>
+            <h2>When to Use a 20% Tip</h2>
+            <p>A 20% tip is appropriate in many situations:</p>
+            <ul>
+                <li>Restaurant dining with good service</li>
+                <li>Haircuts and salon services</li>
+                <li>Taxi and rideshare services</li>
+                <li>Food delivery</li>
+                <li>Bartenders (for drink service)</li>
+                <li>Tour guides</li>
+                <li>Full-service car washes</li>
+            </ul>
+            <p>For exceptional service, you might consider tipping more than 20%. For basic counter service, 10-15% might be more appropriate.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Calculate 20% tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const billAmount = parseFloat(document.getElementById('billAmount').value);
+            const splitCount = parseInt(document.getElementById('splitCount').value) || 1;
+            
+            // Validate bill amount
+            if (isNaN(billAmount) || billAmount <= 0) {
+                alert("Please enter a valid bill amount.");
+                return;
+            }
+            
+            // Calculate tip amount (fixed at 20%)
+            const tipAmount = billAmount * 0.2;
+            
+            // Calculate total with tip
+            const totalAmount = billAmount + tipAmount;
+            
+            // Calculate per person amounts if splitting
+            const billPerPerson = billAmount / splitCount;
+            const tipPerPerson = tipAmount / splitCount;
+            const totalPerPerson = totalAmount / splitCount;
+            
+            // Display results
+            document.getElementById('resultBillAmount').textContent = formatMoney(billAmount);
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show or hide split result section
+            if (splitCount > 1) {
+                document.getElementById('resultBillPerPerson').textContent = formatMoney(billPerPerson);
+                document.getElementById('resultTipPerPerson').textContent = formatMoney(tipPerPerson);
+                document.getElementById('resultTotalPerPerson').textContent = formatMoney(totalPerPerson);
+                document.getElementById('splitResult').style.display = 'block';
+            } else {
+                document.getElementById('splitResult').style.display = 'none';
+            }
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

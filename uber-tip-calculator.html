@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online Uber tip calculator. Calculate appropriate tips for Uber rides and other rideshare services quickly and easily.">
+    <meta name="keywords" content="uber tip calculator, rideshare tip, lyft tip, uber driver tip, ride tip calculator, free online calculator">
+    <title>Uber Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0 20px;
+        }
+        .tip-option {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .tip-option:hover {
+            background-color: #e9f2fb;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Uber Tip Calculator</h1>
+        <p>Calculate appropriate tips for Uber, Lyft, and other rideshare services</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Rideshare Tip</h2>
+            <form id="tipForm">
+                <div class="form-group">
+                    <label for="fareAmount">Fare Amount ($):</label>
+                    <input type="number" id="fareAmount" name="fareAmount" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceQuality">Service Quality:</label>
+                    <select id="serviceQuality" name="serviceQuality" required>
+                        <option value="">Select</option>
+                        <option value="excellent">Excellent (20%)</option>
+                        <option value="good">Good (15%)</option>
+                        <option value="standard">Standard (10%)</option>
+                        <option value="fair">Fair (5%)</option>
+                        <option value="poor">Poor (0%)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Custom Tip Percentage:</label>
+                    <div class="tip-options">
+                        <div class="tip-option" onclick="selectTip(0)" id="tip-0">0%</div>
+                        <div class="tip-option" onclick="selectTip(5)" id="tip-5">5%</div>
+                        <div class="tip-option" onclick="selectTip(10)" id="tip-10">10%</div>
+                        <div class="tip-option" onclick="selectTip(15)" id="tip-15">15%</div>
+                        <div class="tip-option" onclick="selectTip(20)" id="tip-20">20%</div>
+                    </div>
+                    <input type="number" id="customTipPercent" name="customTipPercent" min="0" max="100" placeholder="Or enter custom percentage" onchange="customTipSelected()">
+                </div>
+                
+                <div class="form-group">
+                    <label for="rideDetails">Ride Factors (Optional):</label>
+                    <select id="rideDetails" name="rideDetails">
+                        <option value="standard">Standard Ride</option>
+                        <option value="longDistance">Long Distance</option>
+                        <option value="heavyTraffic">Heavy Traffic</option>
+                        <option value="lateNight">Late Night Ride</option>
+                        <option value="helpedWithLuggage">Helped with Luggage</option>
+                    </select>
+                </div>
+                
+                <button type="button" onclick="calculateTip()">Calculate Tip</button>
+            </form>
+            
+            <div id="result" class="result">
+                <h3>Tip Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Fare Amount:</th>
+                        <td>$<span id="resultFareAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Tip Percentage:</th>
+                        <td><span id="resultTipPercent"></span>%</td>
+                    </tr>
+                    <tr>
+                        <th>Tip Amount:</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount:</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>About Tipping Uber and Rideshare Drivers</h2>
+            <p>Tipping your rideshare driver is a great way to show appreciation for good service. Unlike traditional taxis, rideshare platforms like Uber and Lyft initially didn't include tipping as part of their service, but now they offer in-app tipping options.</p>
+            <p>While tipping is not mandatory, it's a kind gesture that supports drivers who often rely on tips as part of their income. The standard range for rideshare tipping is typically 10-20% of the fare, depending on service quality and other factors.</p>
+        </section>
+        
+        <section>
+            <h2>Rideshare Tipping Guidelines</h2>
+            <p>Not sure how much to tip your Uber or Lyft driver? Here are some general guidelines:</p>
+            <ul>
+                <li><strong>15-20%:</strong> For excellent service - clean vehicle, safe driving, pleasant conversation (if desired), help with luggage</li>
+                <li><strong>10-15%:</strong> For good service - safe driving and a clean vehicle</li>
+                <li><strong>5-10%:</strong> For standard service - got you to your destination safely but nothing exceptional</li>
+                <li><strong>0-5%:</strong> For subpar service - though consider leaving feedback instead if there were issues</li>
+            </ul>
+            <p>Additional considerations that might warrant a higher tip:</p>
+            <ul>
+                <li>Driver waited patiently for you</li>
+                <li>Helped with heavy luggage</li>
+                <li>Navigated difficult weather conditions</li>
+                <li>Drove during late hours or peak times</li>
+                <li>Made extra stops not included in the original fare</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Tips for Using This Calculator</h2>
+            <p>To get the most out of this Uber tip calculator:</p>
+            <ul>
+                <li>Enter the exact fare amount from your ride receipt</li>
+                <li>Consider the service quality factors that matter most to you</li>
+                <li>Use the "Ride Factors" dropdown to see suggested adjustments for special circumstances</li>
+                <li>Remember that in-app tipping must usually be done within 24 hours of your ride</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 0;
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('tip-' + percent).classList.add('selected');
+            
+            // Update the custom tip field and selected percentage
+            document.getElementById('customTipPercent').value = '';
+            selectedTipPercent = percent;
+            
+            // If service quality dropdown is set, clear it
+            document.getElementById('serviceQuality').value = '';
+        }
+        
+        // Function when custom tip is entered
+        function customTipSelected() {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Get custom tip value
+            const customTip = parseFloat(document.getElementById('customTipPercent').value);
+            if (!isNaN(customTip)) {
+                selectedTipPercent = customTip;
+            }
+            
+            // Clear service quality selection
+            document.getElementById('serviceQuality').value = '';
+        }
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const fareAmount = parseFloat(document.getElementById('fareAmount').value);
+            const serviceQuality = document.getElementById('serviceQuality').value;
+            const rideDetails = document.getElementById('rideDetails').value;
+            
+            // Validate fare amount
+            if (isNaN(fareAmount) || fareAmount <= 0) {
+                alert("Please enter a valid fare amount.");
+                return;
+            }
+            
+            // Determine tip percentage based on inputs
+            let tipPercent = selectedTipPercent;
+            
+            // If service quality is selected, override the tip percent
+            if (serviceQuality) {
+                switch (serviceQuality) {
+                    case 'excellent':
+                        tipPercent = 20;
+                        break;
+                    case 'good':
+                        tipPercent = 15;
+                        break;
+                    case 'standard':
+                        tipPercent = 10;
+                        break;
+                    case 'fair':
+                        tipPercent = 5;
+                        break;
+                    case 'poor':
+                        tipPercent = 0;
+                        break;
+                }
+                
+                // Update the UI to show selected percentage
+                document.querySelectorAll('.tip-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                if (tipPercent === 0) document.getElementById('tip-0').classList.add('selected');
+                if (tipPercent === 5) document.getElementById('tip-5').classList.add('selected');
+                if (tipPercent === 10) document.getElementById('tip-10').classList.add('selected');
+                if (tipPercent === 15) document.getElementById('tip-15').classList.add('selected');
+                if (tipPercent === 20) document.getElementById('tip-20').classList.add('selected');
+            }
+            
+            // Adjust for ride details
+            let rideAdjustment = 0;
+            switch (rideDetails) {
+                case 'longDistance':
+                    rideAdjustment = 2;
+                    break;
+                case 'heavyTraffic':
+                    rideAdjustment = 3;
+                    break;
+                case 'lateNight':
+                    rideAdjustment = 5;
+                    break;
+                case 'helpedWithLuggage':
+                    rideAdjustment = 5;
+                    break;
+            }
+            
+            tipPercent += rideAdjustment;
+            
+            // If no tip percentage is selected, use default
+            if (tipPercent === 0 && !serviceQuality) {
+                tipPercent = 10;
+            }
+            
+            // Calculate tip amount
+            const tipAmount = fareAmount * (tipPercent / 100);
+            
+            // Calculate total with tip
+            const totalAmount = fareAmount + tipAmount;
+            
+            // Display results
+            document.getElementById('resultFareAmount').textContent = formatMoney(fareAmount);
+            document.getElementById('resultTipPercent').textContent = tipPercent;
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

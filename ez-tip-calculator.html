@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online EZ tip calculator. Ultra simple and fast way to calculate tips without any complexity or confusion.">
+    <meta name="keywords" content="ez tip calculator, easy tip calculator, quick tip calculator, simple gratuity, basic tip calculator, free online calculator">
+    <title>EZ Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 20px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f2f9ff;
+            border-radius: 5px;
+            display: none;
+            text-align: center;
+        }
+        .big-result {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .tip-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .tip-btn {
+            flex: 1;
+            min-width: 70px;
+            padding: 12px 0;
+            background-color: #f0f0f0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .tip-btn:hover {
+            background-color: #e3e3e3;
+        }
+        .tip-btn.selected {
+            background-color: #0066cc;
+            color: white;
+            border-color: #0052a3;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .steps {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .step {
+            flex: 1;
+            padding: 10px;
+            border-bottom: 3px solid #ddd;
+        }
+        .step.active {
+            border-color: #0066cc;
+            color: #0066cc;
+            font-weight: bold;
+        }
+        .step-number {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-color: #ddd;
+            border-radius: 50%;
+            line-height: 25px;
+            margin-right: 5px;
+        }
+        .step.active .step-number {
+            background-color: #0066cc;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>EZ Tip Calculator</h1>
+        <p>The fastest and simplest way to calculate tips</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <div class="steps">
+                <div class="step active">
+                    <span class="step-number">1</span> Enter Bill
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span> Select Tip
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span> See Result
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="billAmount">Enter Bill Amount:</label>
+                <input type="number" id="billAmount" name="billAmount" min="0.01" step="0.01" placeholder="$ 0.00" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Select Tip Percentage:</label>
+                <div class="tip-buttons">
+                    <div class="tip-btn" onclick="selectTip(10)" id="tip-10">10%</div>
+                    <div class="tip-btn" onclick="selectTip(15)" id="tip-15">15%</div>
+                    <div class="tip-btn" onclick="selectTip(18)" id="tip-18">18%</div>
+                    <div class="tip-btn" onclick="selectTip(20)" id="tip-20">20%</div>
+                    <div class="tip-btn" onclick="selectTip(25)" id="tip-25">25%</div>
+                </div>
+            </div>
+            
+            <button type="button" onclick="calculateTip()">CALCULATE NOW</button>
+            
+            <div id="result" class="result">
+                <h3>Your Results:</h3>
+                
+                <div class="big-result">
+                    Tip Amount: $<span id="resultTipAmount"></span>
+                </div>
+                
+                <div class="big-result">
+                    Total to Pay: $<span id="resultTotalAmount"></span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>About the EZ Tip Calculator</h2>
+            <p>This EZ Tip Calculator is designed to be the simplest and fastest way to calculate tips. No confusing options or complex layouts—just three simple steps:</p>
+            <ol>
+                <li>Enter your bill amount</li>
+                <li>Select a tip percentage</li>
+                <li>Get your results instantly</li>
+            </ol>
+            <p>Perfect for when you need a quick calculation at restaurants, salons, or for any service requiring a tip.</p>
+        </section>
+        
+        <section>
+            <h2>Quick Tip Guide</h2>
+            <ul>
+                <li><strong>10%:</strong> Easy to calculate (move decimal point one place left). Minimum tip for basic service.</li>
+                <li><strong>15%:</strong> Standard tip for normal service in many places.</li>
+                <li><strong>18%:</strong> Good service tip (often automatically added for larger groups).</li>
+                <li><strong>20%:</strong> Great service tip, becoming the new standard in many cities.</li>
+                <li><strong>25%:</strong> Excellent service tip or for exceptional circumstances.</li>
+            </ul>
+            <p>When in doubt, 15-20% is usually appropriate for most service situations.</p>
+        </section>
+        
+        <section>
+            <h2>Why Use Our EZ Tip Calculator?</h2>
+            <ul>
+                <li><strong>Super Simple:</strong> No unnecessary options or clutter</li>
+                <li><strong>Lightning Fast:</strong> Get results with just a few clicks</li>
+                <li><strong>Mobile Friendly:</strong> Works perfectly on phones and tablets</li>
+                <li><strong>No Math Required:</strong> Let the calculator do all the work</li>
+                <li><strong>No Ads or Popups:</strong> Clean, distraction-free experience</li>
+            </ul>
+            <p>When you need to calculate a tip quickly and easily, our EZ Tip Calculator is the perfect solution!</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 15; // Default to 15%
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Update step indicator
+            document.querySelectorAll('.step').forEach((step, index) => {
+                if (index === 1) step.classList.add('active');
+                if (index === 0) step.classList.remove('active');
+            });
+            
+            // Clear all selected classes
+            document.querySelectorAll('.tip-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('tip-' + percent).classList.add('selected');
+            
+            // Update selected percentage
+            selectedTipPercent = percent;
+        }
+        
+        // Initialize the first tip option as selected
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('tip-15').classList.add('selected');
+        });
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Update step indicator
+            document.querySelectorAll('.step').forEach((step, index) => {
+                if (index === 2) step.classList.add('active');
+                if (index === 1) step.classList.remove('active');
+            });
+            
+            // Get bill amount
+            const billAmount = parseFloat(document.getElementById('billAmount').value);
+            
+            // Validate bill amount
+            if (isNaN(billAmount) || billAmount <= 0) {
+                alert("Please enter a valid bill amount.");
+                return;
+            }
+            
+            // Calculate tip amount
+            const tipAmount = billAmount * (selectedTipPercent / 100);
+            
+            // Calculate total with tip
+            const totalAmount = billAmount + tipAmount;
+            
+            // Display results
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        // Reset steps when bill amount changes
+        document.getElementById('billAmount').addEventListener('focus', function() {
+            document.querySelectorAll('.step').forEach((step, index) => {
+                if (index === 0) step.classList.add('active');
+                if (index > 0) step.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

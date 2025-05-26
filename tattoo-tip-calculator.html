@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online tattoo tip calculator. Calculate appropriate tips for tattoo artists based on tattoo size, complexity, and session time.">
+    <meta name="keywords" content="tattoo tip calculator, tattoo artist gratuity, ink tip, tattooing tip, how much to tip tattoo artist, free online calculator">
+    <title>Tattoo Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0 20px;
+        }
+        .tip-option {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .tip-option:hover {
+            background-color: #e9f2fb;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+        }
+        .result-table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        .slider-container {
+            margin: 10px 0;
+        }
+        .slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tattoo Tip Calculator</h1>
+        <p>Calculate appropriate tips for tattoo artists based on size, complexity, and session time</p>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <h2>Calculate Tattoo Artist Tip</h2>
+            <form id="tipForm">
+                <div class="form-group">
+                    <label for="priceType">Pricing Type:</label>
+                    <select id="priceType" name="priceType">
+                        <option value="fixed">Fixed Price</option>
+                        <option value="hourly">Hourly Rate</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="fixedPriceDiv">
+                    <label for="tattooPrice">Tattoo Price ($):</label>
+                    <input type="number" id="tattooPrice" name="tattooPrice" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="form-group" id="hourlyRateDiv" style="display: none;">
+                    <label for="hourlyRate">Hourly Rate ($):</label>
+                    <input type="number" id="hourlyRate" name="hourlyRate" min="0.01" step="0.01" value="150">
+                </div>
+                
+                <div class="form-group" id="hoursDiv" style="display: none;">
+                    <label for="hours">Session Time (hours):</label>
+                    <input type="number" id="hours" name="hours" min="0.5" max="12" step="0.5" value="2">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tattooComplexity">Complexity:</label>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="5" value="3" class="slider" id="tattooComplexity">
+                        <div class="slider-labels">
+                            <span>Simple</span>
+                            <span>Average</span>
+                            <span>Complex</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="artistExperience">Artist Experience:</label>
+                    <select id="artistExperience" name="artistExperience">
+                        <option value="apprentice">Apprentice</option>
+                        <option value="junior">Junior Artist</option>
+                        <option value="experienced" selected>Experienced Artist</option>
+                        <option value="senior">Senior/Well-Known Artist</option>
+                        <option value="celebrity">Celebrity/Famous Artist</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="satisfaction">Satisfaction with Result:</label>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="5" value="5" class="slider" id="satisfaction">
+                        <div class="slider-labels">
+                            <span>OK</span>
+                            <span>Good</span>
+                            <span>Excellent</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Custom Tip Percentage:</label>
+                    <div class="tip-options">
+                        <div class="tip-option" onclick="selectTip(10)" id="tip-10">10%</div>
+                        <div class="tip-option" onclick="selectTip(15)" id="tip-15">15%</div>
+                        <div class="tip-option selected" onclick="selectTip(20)" id="tip-20">20%</div>
+                        <div class="tip-option" onclick="selectTip(25)" id="tip-25">25%</div>
+                        <div class="tip-option" onclick="selectTip(30)" id="tip-30">30%</div>
+                    </div>
+                    <input type="number" id="customTipPercent" name="customTipPercent" min="0" max="100" placeholder="Or enter custom percentage" onchange="customTipSelected()">
+                </div>
+                
+                <button type="button" onclick="calculateTip()">Calculate Tip</button>
+            </form>
+            
+            <div id="result" class="result">
+                <h3>Tattoo Tip Calculation Results</h3>
+                
+                <table class="result-table">
+                    <tr>
+                        <th>Tattoo Price:</th>
+                        <td>$<span id="resultTattooPrice"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Recommended Tip Percentage:</th>
+                        <td><span id="resultTipPercent"></span>%</td>
+                    </tr>
+                    <tr>
+                        <th>Recommended Tip Amount:</th>
+                        <td>$<span id="resultTipAmount"></span></td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount:</th>
+                        <td>$<span id="resultTotalAmount"></span></td>
+                    </tr>
+                </table>
+                
+                <p id="tipSuggestion" style="margin-top: 15px;"></p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Tattoo Tipping Guide</h2>
+            <p>Tipping your tattoo artist is customary in many countries, particularly in the United States. It's a way to show appreciation for their skill, artistry, and service. Unlike some other service industries, tipping guidelines for tattoos can vary based on multiple factors.</p>
+            
+            <h3>General Tattoo Tipping Guidelines</h3>
+            <ul>
+                <li><strong>15-20%</strong> is standard for most tattoos</li>
+                <li><strong>20-25%</strong> for complex designs or exceptional work</li>
+                <li><strong>25-30%</strong> for outstanding results, highly detailed work, or long sessions</li>
+                <li><strong>10-15%</strong> for very large tattoos with high prices (over $1000)</li>
+            </ul>
+            
+            <h3>Factors That Influence Tipping</h3>
+            <ul>
+                <li><strong>Complexity and Detail:</strong> More complex designs typically warrant higher tips</li>
+                <li><strong>Session Length:</strong> Longer sessions (especially all-day sessions) may deserve higher appreciation</li>
+                <li><strong>Artist Reputation:</strong> Different expectations may apply based on artist experience level</li>
+                <li><strong>Quality of Result:</strong> The better the outcome, the more generous the tip should be</li>
+                <li><strong>Studio Type:</strong> Private studios vs. commercial shops may have different norms</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Tattoo Tipping Etiquette</h2>
+            
+            <h3>When to Tip</h3>
+            <p>Tip after each session for multi-session tattoos, not just at the end of the final session. This shows appreciation for the artist's ongoing work and helps maintain a positive relationship throughout the process.</p>
+            
+            <h3>Cash is Preferred</h3>
+            <p>Most tattoo artists prefer cash tips. This allows them to receive the full amount without processing fees and may have tax advantages for them. If you plan to tip, bring cash specifically for this purpose.</p>
+            
+            <h3>Special Considerations</h3>
+            <ul>
+                <li><strong>Shop Owners:</strong> While traditionally shop owners weren't tipped, modern etiquette suggests tipping shop owners who tattoo you just as you would any other artist</li>
+                <li><strong>Apprentices:</strong> Even if prices are lower, consider tipping apprentices generously as they're building their career</li>
+                <li><strong>Free Touch-ups:</strong> If an artist offers free touch-ups, consider tipping for their time</li>
+                <li><strong>Discounted Work:</strong> If you received a discount, consider tipping based on the original price</li>
+            </ul>
+            
+            <h3>Should You Tip for Poor Work?</h3>
+            <p>If you're unhappy with the work, address your concerns with the artist or shop manager first. For minor issues that can be fixed with touch-ups, a reduced tip (5-10%) is appropriate. For major problems, focus on resolving the issues before considering the tip.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 20; // Default to 20%
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return number.toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById('tip-' + percent).classList.add('selected');
+            
+            // Update the custom tip field and selected percentage
+            document.getElementById('customTipPercent').value = '';
+            selectedTipPercent = percent;
+        }
+        
+        // Function when custom tip is entered
+        function customTipSelected() {
+            // Clear all selected classes
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Get custom tip value
+            const customTip = parseFloat(document.getElementById('customTipPercent').value);
+            if (!isNaN(customTip)) {
+                selectedTipPercent = customTip;
+            }
+        }
+        
+        // Toggle between fixed price and hourly rate
+        document.getElementById('priceType').addEventListener('change', function() {
+            if (this.value === 'fixed') {
+                document.getElementById('fixedPriceDiv').style.display = 'block';
+                document.getElementById('hourlyRateDiv').style.display = 'none';
+                document.getElementById('hoursDiv').style.display = 'none';
+            } else {
+                document.getElementById('fixedPriceDiv').style.display = 'none';
+                document.getElementById('hourlyRateDiv').style.display = 'block';
+                document.getElementById('hoursDiv').style.display = 'block';
+            }
+        });
+        
+        // Calculate automatic recommendation based on factors
+        function calculateRecommendation() {
+            const complexity = parseInt(document.getElementById('tattooComplexity').value);
+            const artistExperience = document.getElementById('artistExperience').value;
+            const satisfaction = parseInt(document.getElementById('satisfaction').value);
+            
+            // Base percentage starts at 15%
+            let recommendedPercent = 15;
+            
+            // Adjust for complexity (1-5 scale)
+            recommendedPercent += (complexity - 3); // -2 to +2 adjustment
+            
+            // Adjust for artist experience
+            switch(artistExperience) {
+                case 'apprentice':
+                    recommendedPercent += 0;
+                    break;
+                case 'junior':
+                    recommendedPercent += 1;
+                    break;
+                case 'experienced':
+                    recommendedPercent += 2;
+                    break;
+                case 'senior':
+                    recommendedPercent += 3;
+                    break;
+                case 'celebrity':
+                    recommendedPercent += 4;
+                    break;
+            }
+            
+            // Adjust for satisfaction (1-5 scale)
+            recommendedPercent += (satisfaction - 3); // -2 to +2 adjustment
+            
+            // Ensure reasonable range (10-30%)
+            return Math.max(10, Math.min(30, recommendedPercent));
+        }
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const priceType = document.getElementById('priceType').value;
+            let tattooPrice;
+            
+            if (priceType === 'fixed') {
+                tattooPrice = parseFloat(document.getElementById('tattooPrice').value);
+            } else {
+                const hourlyRate = parseFloat(document.getElementById('hourlyRate').value);
+                const hours = parseFloat(document.getElementById('hours').value);
+                tattooPrice = hourlyRate * hours;
+            }
+            
+            // Validate tattoo price
+            if (isNaN(tattooPrice) || tattooPrice <= 0) {
+                alert("Please enter valid pricing information.");
+                return;
+            }
+            
+            // Calculate recommended percentage
+            const recommendedPercent = calculateRecommendation();
+            
+            // Use selected tip percent if custom was chosen, otherwise use recommendation
+            const tipPercent = selectedTipPercent || recommendedPercent;
+            
+            // Calculate tip amount
+            const tipAmount = tattooPrice * (tipPercent / 100);
+            
+            // Calculate total with tip
+            const totalAmount = tattooPrice + tipAmount;
+            
+            // Display results
+            document.getElementById('resultTattooPrice').textContent = formatMoney(tattooPrice);
+            document.getElementById('resultTipPercent').textContent = tipPercent;
+            document.getElementById('resultTipAmount').textContent = formatMoney(tipAmount);
+            document.getElementById('resultTotalAmount').textContent = formatMoney(totalAmount);
+            
+            // Add personalized suggestion
+            let suggestion = "";
+            if (tattooPrice > 1000 && tipPercent > 20) {
+                suggestion = "For large tattoo prices, a lower percentage (10-15%) is still considered generous due to the high base price.";
+            } else if (tipPercent < 15) {
+                suggestion = "A tip below 15% may be appropriate for simple work, but consider the artist's time and skill.";
+            } else if (tipPercent > 25) {
+                suggestion = "A tip above 25% shows exceptional appreciation and is appropriate for outstanding work.";
+            } else {
+                suggestion = "Your tip is in the standard range for tattoo services. Adjust based on your satisfaction and relationship with the artist.";
+            }
+            
+            document.getElementById('tipSuggestion').textContent = suggestion;
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
