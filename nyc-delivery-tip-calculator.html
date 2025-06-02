@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online NYC delivery tip calculator. Calculate appropriate tips for food and service deliveries in New York City based on local customs and challenges.">
+    <meta name="keywords" content="nyc tip calculator, new york city delivery tip, manhattan delivery gratuity, brooklyn delivery tip, nyc food delivery, free online calculator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freeonlinecalculator.me/nyc-delivery-tip-calculator.html">
+    <meta property="og:title" content="NYC Delivery Tip Calculator | Free Online Calculator">
+    <meta property="og:description" content="Free online NYC delivery tip calculator. Calculate appropriate tips for food and service deliveries in New York City based on local customs and challenges.">
+    <meta property="og:url" content="https://freeonlinecalculator.me/nyc-delivery-tip-calculator.html">
+    <meta property="og:type" content="website">
+    <title>NYC Delivery Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .tip-option {
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            flex: 1;
+            min-width: 70px;
+        }
+        .tip-option:hover {
+            background-color: #e0e0e0;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+            border-color: #0052a3;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .radio-label input {
+            width: auto;
+            margin-right: 5px;
+        }
+        .nyc-accent {
+            color: #e94335;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NYC Delivery Tip Calculator</h1>
+        <p>Calculate appropriate tips for deliveries in New York City</p>
+        <nav aria-label="Breadcrumb">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="index.html" itemprop="item"><span itemprop="name">Home</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span aria-current="page" itemprop="name">NYC Delivery Tip Calculator</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ol>
+        </nav>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <p>This calculator helps you determine appropriate tips for deliveries in NYC based on borough, building type, weather conditions, and NYC-specific challenges.</p>
+            
+            <div class="form-group">
+                <label for="orderType">Delivery Type:</label>
+                <select id="orderType">
+                    <option value="food">Food Delivery</option>
+                    <option value="grocery">Grocery Delivery</option>
+                    <option value="package">Package Delivery</option>
+                    <option value="furniture">Furniture/Large Item Delivery</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="orderValue">Order Total ($):</label>
+                <input type="number" id="orderValue" placeholder="Enter order value" min="0" step="0.01">
+            </div>
+            
+            <div class="form-group">
+                <label for="borough">NYC Borough:</label>
+                <select id="borough">
+                    <option value="manhattan">Manhattan</option>
+                    <option value="brooklyn">Brooklyn</option>
+                    <option value="queens">Queens</option>
+                    <option value="bronx">Bronx</option>
+                    <option value="statenisland">Staten Island</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="buildingType">Building Type:</label>
+                <select id="buildingType">
+                    <option value="walkup">Walk-up Building (No Elevator)</option>
+                    <option value="elevator">Elevator Building</option>
+                    <option value="doorman">Doorman Building</option>
+                    <option value="house">House/Brownstone</option>
+                    <option value="office">Office Building</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="floor">Floor/Level:</label>
+                <select id="floor">
+                    <option value="1">1st Floor/Ground Level</option>
+                    <option value="2">2nd-3rd Floor</option>
+                    <option value="4">4th-5th Floor</option>
+                    <option value="6">6th Floor or Higher</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Weather/Traffic Conditions:</label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="conditions" value="normal" checked> Normal NYC Day</label>
+                    <label class="radio-label"><input type="radio" name="conditions" value="bad"> Bad (Rain/Snow)</label>
+                    <label class="radio-label"><input type="radio" name="conditions" value="severe"> Severe (Blizzard/Heatwave)</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>NYC Challenge Level:</label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="nycFactor" value="easy" checked> Standard</label>
+                    <label class="radio-label"><input type="radio" name="nycFactor" value="moderate"> Challenging (Rush Hour/Event Day)</label>
+                    <label class="radio-label"><input type="radio" name="nycFactor" value="difficult"> Very Difficult (Holiday/Parade/Street Fair)</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Tip Percentage:</label>
+                <div class="tip-options">
+                    <div class="tip-option" id="tip-15" onclick="selectTip(15)">15%</div>
+                    <div class="tip-option" id="tip-18" onclick="selectTip(18)">18%</div>
+                    <div class="tip-option" id="tip-20" onclick="selectTip(20)">20%</div>
+                    <div class="tip-option" id="tip-25" onclick="selectTip(25)">25%</div>
+                    <div class="tip-option" id="tip-custom">
+                        <input type="number" id="customTip" placeholder="Custom %" min="0" max="100" oninput="customTipSelected()" style="width: 80%">
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="calculateTip()">Calculate Tip</button>
+            
+            <div id="result" class="result">
+                <h3>NYC Delivery Tip Calculation</h3>
+                <table class="result-table">
+                    <tr>
+                        <th>Order Total:</th>
+                        <td id="resultOrderValue">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Base Tip (Percentage):</th>
+                        <td id="resultBaseTip">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>NYC Location Adjustment:</th>
+                        <td id="resultLocationAdjustment">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Weather & Conditions Adjustment:</th>
+                        <td id="resultConditionsAdjustment">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Total Recommended Tip:</th>
+                        <td id="resultTotalTip">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Total with Tip:</th>
+                        <td id="resultTotal">$0.00</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>NYC Delivery Tipping Guide</h2>
+            <p>In New York City, delivery tipping practices reflect the unique challenges of the urban environment:</p>
+            <ul>
+                <li><strong>Standard Tipping:</strong> 20-25% is customary for food delivery in NYC (higher than national average)</li>
+                <li><strong>Minimum Tips:</strong> $5-7 minimum is common for most deliveries, even for small orders</li>
+                <li><strong>Walk-up Buildings:</strong> Add $1-2 per floor for buildings without elevators</li>
+                <li><strong>Distance:</strong> While NYC is dense, cross-borough deliveries deserve extra consideration</li>
+                <li><strong>Weather:</strong> NYC's exposed streets and subway entrances make bad weather especially challenging</li>
+                <li><strong>Building Access:</strong> Consider security procedures, doorman interactions, and access challenges</li>
+                <li><strong>Parking:</strong> Delivery workers often risk tickets or have to park far away in NYC</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>NYC Borough-Specific Considerations</h2>
+            <p>Each NYC borough presents unique delivery challenges:</p>
+            <ul>
+                <li><strong>Manhattan:</strong> High congestion, limited parking, many walk-ups, high security buildings</li>
+                <li><strong>Brooklyn:</strong> Varied neighborhoods, some areas with limited public transit for delivery workers</li>
+                <li><strong>Queens:</strong> More spread out, potential longer distances between deliveries</li>
+                <li><strong>Bronx:</strong> Varied terrain, some hilly areas adding to delivery difficulty</li>
+                <li><strong>Staten Island:</strong> More spread out, ferry complications, less public transit options</li>
+            </ul>
+            <p>Your tip should reflect these borough-specific challenges faced by delivery workers.</p>
+        </section>
+        
+        <section>
+            <h2>Why NYC Delivery Tips Are Higher</h2>
+            <p>New York City delivery workers face unique challenges that warrant higher tips:</p>
+            <ul>
+                <li><strong>Cost of Living:</strong> NYC has one of the highest costs of living in the country</li>
+                <li><strong>Transportation Modes:</strong> Many NYC delivery workers use bikes or public transit in all weather</li>
+                <li><strong>Traffic Congestion:</strong> Getting around NYC often takes longer due to extreme traffic</li>
+                <li><strong>Parking Challenges:</strong> Limited parking often means drivers risk tickets or walk long distances</li>
+                <li><strong>Building Access:</strong> Security procedures, intercom systems, and multistory walk-ups add time</li>
+                <li><strong>Weather Exposure:</strong> Many delivery workers are exposed to extreme elements without shelter</li>
+                <li><strong>Special Events:</strong> Parades, street fairs, and UN sessions can make deliveries extremely difficult</li>
+            </ul>
+            <p>A generous tip acknowledges these NYC-specific challenges and helps ensure continued good service.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | <a href="sitemap.xml">Sitemap</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "NYC Delivery Tip Calculator",
+      "url": "https://freeonlinecalculator.me/nyc-delivery-tip-calculator.html",
+      "description": "Free online NYC delivery tip calculator. Calculate appropriate tips for food and service deliveries in New York City based on local customs and challenges.",
+      "applicationCategory": "FinanceApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script>
+        // Global variables
+        let selectedTipPercent = 20; // Default to 20% for NYC
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return '$' + parseFloat(number).toFixed(2);
+        }
+        
+        // Function to select tip percentage
+        function selectTip(percent) {
+            // Clear previous selection
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Select new option
+            if (percent !== 'custom') {
+                document.getElementById('tip-' + percent).classList.add('selected');
+                selectedTipPercent = percent;
+                document.getElementById('customTip').value = '';
+            }
+        }
+        
+        // Function when custom tip is entered
+        function customTipSelected() {
+            // Clear previous selections
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Select custom option
+            document.getElementById('tip-custom').classList.add('selected');
+            selectedTipPercent = parseFloat(document.getElementById('customTip').value) || 0;
+        }
+        
+        // Initialize the first tip option as selected
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('tip-20').classList.add('selected');
+        });
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const orderValue = parseFloat(document.getElementById('orderValue').value) || 0;
+            const orderType = document.getElementById('orderType').value;
+            const borough = document.getElementById('borough').value;
+            const buildingType = document.getElementById('buildingType').value;
+            const floor = document.getElementById('floor').value;
+            
+            // Get selected conditions
+            let conditions = 'normal';
+            document.querySelectorAll('input[name="conditions"]').forEach(radio => {
+                if (radio.checked) {
+                    conditions = radio.value;
+                }
+            });
+            
+            // Get selected NYC factor
+            let nycFactor = 'easy';
+            document.querySelectorAll('input[name="nycFactor"]').forEach(radio => {
+                if (radio.checked) {
+                    nycFactor = radio.value;
+                }
+            });
+            
+            // Calculate base tip
+            let baseTip = (orderValue * selectedTipPercent) / 100;
+            
+            // Add minimum base tip based on order type and NYC standards
+            if (orderType === 'food' && baseTip < 5) baseTip = 5;
+            if (orderType === 'grocery' && baseTip < 7) baseTip = 7;
+            if (orderType === 'package' && baseTip < 5) baseTip = 5;
+            if (orderType === 'furniture' && baseTip < 20) baseTip = 20;
+            
+            // Calculate location adjustment based on NYC specifics
+            let locationAdjustment = 0;
+            
+            // Borough-specific adjustments
+            if (borough === 'manhattan') locationAdjustment += 2; // Extra for Manhattan delivery challenges
+            if (borough === 'statenisland') locationAdjustment += 3; // Extra for Staten Island distance
+            
+            // Building type adjustments
+            if (buildingType === 'walkup') {
+                // Floor-based adjustments for walk-ups
+                if (floor === '2') locationAdjustment += 2;
+                if (floor === '4') locationAdjustment += 4;
+                if (floor === '6') locationAdjustment += 6;
+            }
+            
+            if (buildingType === 'elevator') locationAdjustment += 1;
+            if (buildingType === 'office') locationAdjustment += 2; // Security, reception, etc.
+            
+            // Calculate conditions adjustment
+            let conditionsAdjustment = 0;
+            
+            // Weather adjustment
+            if (conditions === 'bad') conditionsAdjustment += 3; // NYC bad weather is particularly challenging
+            if (conditions === 'severe') conditionsAdjustment += 7; // NYC severe weather is extremely difficult
+            
+            // NYC-specific challenges
+            if (nycFactor === 'moderate') conditionsAdjustment += 3; // Rush hour, events
+            if (nycFactor === 'difficult') conditionsAdjustment += 5; // Parades, holidays
+            
+            // Calculate total tip
+            const totalTip = baseTip + locationAdjustment + conditionsAdjustment;
+            const total = orderValue + totalTip;
+            
+            // Display results
+            document.getElementById('resultOrderValue').textContent = formatMoney(orderValue);
+            document.getElementById('resultBaseTip').textContent = formatMoney(baseTip) + ' (' + selectedTipPercent + '%)';
+            document.getElementById('resultLocationAdjustment').textContent = formatMoney(locationAdjustment);
+            document.getElementById('resultConditionsAdjustment').textContent = formatMoney(conditionsAdjustment);
+            document.getElementById('resultTotalTip').textContent = formatMoney(totalTip);
+            document.getElementById('resultTotal').textContent = formatMoney(total);
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

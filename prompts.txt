@@ -1,5 +1,4 @@
-create tip-calculator-iphone and add it to the index.html in in the tip calculators section
+make this website scrollable and indexable by the the google indexing bots 
 
 
 
-nake this website scrollable

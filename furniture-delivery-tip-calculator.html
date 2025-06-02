@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online furniture delivery tip calculator. Calculate appropriate tips for furniture delivery and installation services based on item value, size, and complexity.">
+    <meta name="keywords" content="furniture tip calculator, furniture delivery tip, moving help tip, assembly tip, heavy item delivery, free online calculator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freeonlinecalculator.me/furniture-delivery-tip-calculator.html">
+    <meta property="og:title" content="Furniture Delivery Tip Calculator | Free Online Calculator">
+    <meta property="og:description" content="Free online furniture delivery tip calculator. Calculate appropriate tips for furniture delivery and installation services based on item value, size, and complexity.">
+    <meta property="og:url" content="https://freeonlinecalculator.me/furniture-delivery-tip-calculator.html">
+    <meta property="og:type" content="website">
+    <title>Furniture Delivery Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .tip-option {
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            flex: 1;
+            min-width: 70px;
+        }
+        .tip-option:hover {
+            background-color: #e0e0e0;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+            border-color: #0052a3;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .delivery-factors {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .radio-label input {
+            width: auto;
+            margin-right: 5px;
+        }
+        .checkbox-group {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Furniture Delivery Tip Calculator</h1>
+        <p>Calculate appropriate tips for furniture delivery and installation services</p>
+        <nav aria-label="Breadcrumb">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="index.html" itemprop="item"><span itemprop="name">Home</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span aria-current="page" itemprop="name">Furniture Delivery Tip Calculator</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ol>
+        </nav>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <p>This calculator helps you determine appropriate tips for furniture delivery services based on item value, size, delivery difficulty, and additional services like assembly or old furniture removal.</p>
+            
+            <div class="form-group">
+                <label for="orderType">Delivery Type:</label>
+                <select id="orderType">
+                    <option value="standard">Standard Furniture Delivery</option>
+                    <option value="bulky">Bulky/Heavy Item (Sofa, Bed, etc.)</option>
+                    <option value="multiple">Multiple Large Items</option>
+                    <option value="whiteglove">White Glove Delivery Service</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="orderValue">Order/Item Value ($):</label>
+                <input type="number" id="orderValue" placeholder="Enter order value" min="0" step="0.01">
+            </div>
+            
+            <div class="form-group">
+                <label>Additional Services:</label>
+                <div class="checkbox-group">
+                    <label class="radio-label"><input type="checkbox" id="assembly"> Assembly Required</label>
+                </div>
+                <div class="checkbox-group">
+                    <label class="radio-label"><input type="checkbox" id="oldRemoval"> Old Furniture Removal</label>
+                </div>
+                <div class="checkbox-group">
+                    <label class="radio-label"><input type="checkbox" id="roomPlacement"> Room of Choice Placement</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Delivery Location:</label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="difficulty" value="easy" checked> House/Ground Floor</label>
+                    <label class="radio-label"><input type="radio" name="difficulty" value="medium"> Apartment with Elevator</label>
+                    <label class="radio-label"><input type="radio" name="difficulty" value="hard"> Walk-Up/Stairs/Narrow Passages</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Delivery Conditions:</label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="conditions" value="normal" checked> Normal</label>
+                    <label class="radio-label"><input type="radio" name="conditions" value="bad"> Challenging (Weather/Parking Issues)</label>
+                    <label class="radio-label"><input type="radio" name="conditions" value="severe"> Very Difficult (Long Carry/Bad Weather)</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="crewSize">Number of Delivery People:</label>
+                <select id="crewSize">
+                    <option value="1">1 Person</option>
+                    <option value="2" selected>2 People</option>
+                    <option value="3">3+ People</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Recommended Tip Amount:</label>
+                <div class="tip-options">
+                    <div class="tip-option" id="tip-flat" onclick="selectTipType('flat')">Flat Amount</div>
+                    <div class="tip-option" id="tip-percentage" onclick="selectTipType('percentage')">Percentage</div>
+                    <div class="tip-option" id="tip-perperson" onclick="selectTipType('perperson')">Per Person</div>
+                </div>
+            </div>
+            
+            <div id="flat-options" class="tip-options" style="display: none;">
+                <div class="tip-option" id="flat-20" onclick="selectFlatTip(20)">$20</div>
+                <div class="tip-option" id="flat-40" onclick="selectFlatTip(40)">$40</div>
+                <div class="tip-option" id="flat-60" onclick="selectFlatTip(60)">$60</div>
+                <div class="tip-option" id="flat-80" onclick="selectFlatTip(80)">$80</div>
+                <div class="tip-option" id="flat-custom">
+                    <input type="number" id="customFlatTip" placeholder="Custom $" min="0" oninput="customFlatTipSelected()" style="width: 80%">
+                </div>
+            </div>
+            
+            <div id="percentage-options" class="tip-options" style="display: none;">
+                <div class="tip-option" id="percent-5" onclick="selectPercentTip(5)">5%</div>
+                <div class="tip-option" id="percent-10" onclick="selectPercentTip(10)">10%</div>
+                <div class="tip-option" id="percent-15" onclick="selectPercentTip(15)">15%</div>
+                <div class="tip-option" id="percent-20" onclick="selectPercentTip(20)">20%</div>
+                <div class="tip-option" id="percent-custom">
+                    <input type="number" id="customPercentTip" placeholder="Custom %" min="0" max="100" oninput="customPercentTipSelected()" style="width: 80%">
+                </div>
+            </div>
+            
+            <div id="perperson-options" class="tip-options" style="display: none;">
+                <div class="tip-option" id="person-10" onclick="selectPerPersonTip(10)">$10/person</div>
+                <div class="tip-option" id="person-15" onclick="selectPerPersonTip(15)">$15/person</div>
+                <div class="tip-option" id="person-20" onclick="selectPerPersonTip(20)">$20/person</div>
+                <div class="tip-option" id="person-25" onclick="selectPerPersonTip(25)">$25/person</div>
+                <div class="tip-option" id="person-custom">
+                    <input type="number" id="customPerPersonTip" placeholder="Custom $/person" min="0" oninput="customPerPersonTipSelected()" style="width: 80%">
+                </div>
+            </div>
+            
+            <button onclick="calculateTip()">Calculate Tip</button>
+            
+            <div id="result" class="result">
+                <h3>Furniture Delivery Tip Calculation</h3>
+                <table class="result-table">
+                    <tr>
+                        <th>Order Value:</th>
+                        <td id="resultOrderValue">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Base Tip:</th>
+                        <td id="resultBaseTip">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Service Adjustments:</th>
+                        <td id="resultServiceAdjustment">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Difficulty Adjustment:</th>
+                        <td id="resultDifficultyAdjustment">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Total Recommended Tip:</th>
+                        <td id="resultTotalTip">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Tip Per Person:</th>
+                        <td id="resultTipPerPerson">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Total with Tip:</th>
+                        <td id="resultTotal">$0.00</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Furniture Delivery Tipping Guide</h2>
+            <p>When tipping furniture delivery personnel, consider these factors:</p>
+            <ul>
+                <li><strong>Flat Rate Tipping:</strong> $5-$20 per person for standard deliveries</li>
+                <li><strong>Heavy/Bulky Items:</strong> $20-$40 total for large furniture like sofas or beds</li>
+                <li><strong>Assembly Required:</strong> Add $10-$20 for items that need assembly</li>
+                <li><strong>Multiple Items:</strong> Consider increasing the tip for multiple item deliveries</li>
+                <li><strong>Difficulty:</strong> Add more for walk-up apartments, difficult access, or narrow stairways</li>
+                <li><strong>White Glove Service:</strong> 15-20% of the delivery fee for premium services</li>
+                <li><strong>Old Item Removal:</strong> Add $5-$10 for removing old furniture</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Why Tip Furniture Delivery Personnel?</h2>
+            <p>Furniture delivery requires unique skills and involves significant physical demands:</p>
+            <ul>
+                <li>Safely lifting and maneuvering heavy, awkward items without damage</li>
+                <li>Navigating challenging spaces like tight doorways and stairs</li>
+                <li>Protecting your floors, walls, and existing furniture</li>
+                <li>Assembly of complex items that may take significant time</li>
+                <li>Removal and proper disposal of packaging materials</li>
+                <li>Working in various weather conditions</li>
+            </ul>
+            <p>A fair tip acknowledges these challenges and the physical effort required.</p>
+        </section>
+        
+        <section>
+            <h2>Tipping Based on Delivery Service Type</h2>
+            <p>Different furniture delivery services may have different tipping expectations:</p>
+            <ul>
+                <li><strong>Standard Delivery:</strong> $5-$10 per person for threshold delivery</li>
+                <li><strong>Room of Choice:</strong> $10-$20 per person for delivery to a specific room</li>
+                <li><strong>White Glove Service:</strong> $20+ per person or 15-20% of delivery fee</li>
+                <li><strong>Furniture Store Deliveries:</strong> Usually $10-$20 total for 2-person teams</li>
+                <li><strong>Third-Party Moving Services:</strong> $20-$40 total or $10-$20 per person</li>
+            </ul>
+            <p>Remember that delivery fees typically go to the company, not the delivery personnel, so tipping directly rewards good service.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | <a href="sitemap.xml">Sitemap</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Furniture Delivery Tip Calculator",
+      "url": "https://freeonlinecalculator.me/furniture-delivery-tip-calculator.html",
+      "description": "Free online furniture delivery tip calculator. Calculate appropriate tips for furniture delivery and installation services based on item value, size, and complexity.",
+      "applicationCategory": "FinanceApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script>
+        // Global variables
+        let selectedTipType = 'flat';
+        let selectedFlatTip = 40;
+        let selectedPercentTip = 10;
+        let selectedPerPersonTip = 20;
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return '$' + parseFloat(number).toFixed(2);
+        }
+        
+        // Function to select tip type
+        function selectTipType(type) {
+            // Clear previous selection
+            document.querySelectorAll('#tip-flat, #tip-percentage, #tip-perperson').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Hide all tip option groups
+            document.getElementById('flat-options').style.display = 'none';
+            document.getElementById('percentage-options').style.display = 'none';
+            document.getElementById('perperson-options').style.display = 'none';
+            
+            // Select new type and show proper options
+            document.getElementById('tip-' + type).classList.add('selected');
+            document.getElementById(type + '-options').style.display = 'flex';
+            selectedTipType = type;
+            
+            // Select default option in the newly shown group
+            if (type === 'flat') {
+                selectFlatTip(selectedFlatTip);
+            } else if (type === 'percentage') {
+                selectPercentTip(selectedPercentTip);
+            } else if (type === 'perperson') {
+                selectPerPersonTip(selectedPerPersonTip);
+            }
+        }
+        
+        // Functions to select specific tip values
+        function selectFlatTip(amount) {
+            document.querySelectorAll('#flat-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            if (amount !== 'custom') {
+                document.getElementById('flat-' + amount).classList.add('selected');
+                selectedFlatTip = amount;
+                document.getElementById('customFlatTip').value = '';
+            }
+        }
+        
+        function selectPercentTip(percent) {
+            document.querySelectorAll('#percentage-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            if (percent !== 'custom') {
+                document.getElementById('percent-' + percent).classList.add('selected');
+                selectedPercentTip = percent;
+                document.getElementById('customPercentTip').value = '';
+            }
+        }
+        
+        function selectPerPersonTip(amount) {
+            document.querySelectorAll('#perperson-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            if (amount !== 'custom') {
+                document.getElementById('person-' + amount).classList.add('selected');
+                selectedPerPersonTip = amount;
+                document.getElementById('customPerPersonTip').value = '';
+            }
+        }
+        
+        // Functions for custom tip entry
+        function customFlatTipSelected() {
+            document.querySelectorAll('#flat-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.getElementById('flat-custom').classList.add('selected');
+            selectedFlatTip = parseFloat(document.getElementById('customFlatTip').value) || 0;
+        }
+        
+        function customPercentTipSelected() {
+            document.querySelectorAll('#percentage-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.getElementById('percent-custom').classList.add('selected');
+            selectedPercentTip = parseFloat(document.getElementById('customPercentTip').value) || 0;
+        }
+        
+        function customPerPersonTipSelected() {
+            document.querySelectorAll('#perperson-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.getElementById('person-custom').classList.add('selected');
+            selectedPerPersonTip = parseFloat(document.getElementById('customPerPersonTip').value) || 0;
+        }
+        
+        // Initialize the calculator
+        document.addEventListener('DOMContentLoaded', function() {
+            selectTipType('flat');
+            selectFlatTip(40);
+        });
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const orderValue = parseFloat(document.getElementById('orderValue').value) || 0;
+            const orderType = document.getElementById('orderType').value;
+            const crewSize = parseInt(document.getElementById('crewSize').value) || 2;
+            
+            // Get selected additional services
+            const assembly = document.getElementById('assembly').checked;
+            const oldRemoval = document.getElementById('oldRemoval').checked;
+            const roomPlacement = document.getElementById('roomPlacement').checked;
+            
+            // Get selected difficulty level
+            let difficulty = 'easy';
+            document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
+                if (radio.checked) {
+                    difficulty = radio.value;
+                }
+            });
+            
+            // Get selected conditions
+            let conditions = 'normal';
+            document.querySelectorAll('input[name="conditions"]').forEach(radio => {
+                if (radio.checked) {
+                    conditions = radio.value;
+                }
+            });
+            
+            // Calculate base tip based on selected tip type
+            let baseTip = 0;
+            
+            if (selectedTipType === 'flat') {
+                baseTip = selectedFlatTip;
+            } else if (selectedTipType === 'percentage') {
+                baseTip = (orderValue * selectedPercentTip) / 100;
+            } else if (selectedTipType === 'perperson') {
+                baseTip = selectedPerPersonTip * crewSize;
+            }
+            
+            // Apply minimum based on order type
+            if (orderType === 'standard' && baseTip < 10) baseTip = 10;
+            if (orderType === 'bulky' && baseTip < 20) baseTip = 20;
+            if (orderType === 'multiple' && baseTip < 30) baseTip = 30;
+            if (orderType === 'whiteglove' && baseTip < 40) baseTip = 40;
+            
+            // Calculate service adjustments
+            let serviceAdjustment = 0;
+            
+            if (assembly) serviceAdjustment += 15;
+            if (oldRemoval) serviceAdjustment += 10;
+            if (roomPlacement) serviceAdjustment += 5;
+            
+            // Calculate difficulty adjustment
+            let difficultyAdjustment = 0;
+            
+            if (difficulty === 'medium') difficultyAdjustment += 10;
+            if (difficulty === 'hard') difficultyAdjustment += 20;
+            
+            if (conditions === 'bad') difficultyAdjustment += 10;
+            if (conditions === 'severe') difficultyAdjustment += 20;
+            
+            // Calculate total tip
+            const totalTip = baseTip + serviceAdjustment + difficultyAdjustment;
+            const tipPerPerson = totalTip / crewSize;
+            const total = orderValue + totalTip;
+            
+            // Display results
+            document.getElementById('resultOrderValue').textContent = formatMoney(orderValue);
+            document.getElementById('resultBaseTip').textContent = formatMoney(baseTip);
+            document.getElementById('resultServiceAdjustment').textContent = formatMoney(serviceAdjustment);
+            document.getElementById('resultDifficultyAdjustment').textContent = formatMoney(difficultyAdjustment);
+            document.getElementById('resultTotalTip').textContent = formatMoney(totalTip);
+            document.getElementById('resultTipPerPerson').textContent = formatMoney(tipPerPerson) + ' × ' + crewSize + ' people';
+            document.getElementById('resultTotal').textContent = formatMoney(total);
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -5,10 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Free online men's biological age calculator. Calculate your biological age based on men's specific health factors and lifestyle habits.">
     <meta name="keywords" content="men's biological age calculator, male bioage, men's health calculator, testosterone, male aging, men's fitness age, prostate health, free online calculator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freeonlinecalculator.me/mens-bioage-calculator.html">
+    <meta property="og:title" content="Men's Biological Age Calculator | Free Online Calculator">
+    <meta property="og:description" content="Free online men's biological age calculator. Calculate your biological age based on men's specific health factors and lifestyle habits.">
+    <meta property="og:url" content="https://freeonlinecalculator.me/mens-bioage-calculator.html">
+    <meta property="og:type" content="website">
     <title>Men's Biological Age Calculator | Free Online Calculator</title>
     <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #004d99;
+            --accent-color: #3399ff;
+            --light-bg: #f9f9f9;
+            --border-color: #ddd;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0 15px;
@@ -18,7 +31,17 @@
         }
         header {
             padding: 20px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        .logo-accent {
+            color: var(--accent-color);
         }
         h1 {
             margin: 0;
@@ -67,23 +90,43 @@
         footer {
             margin-top: 30px;
             padding: 20px 0;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--border-color);
             text-align: center;
             font-size: 0.9em;
+            background-color: var(--light-bg);
+            border-radius: 8px;
+        }
+        .contact-info {
+            margin: 10px 0;
         }
         a {
-            color: #0066cc;
+            color: var(--primary-color);
             text-decoration: none;
         }
         a:hover {
+            color: var(--secondary-color);
             text-decoration: underline;
         }
     </style>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
 </head>
 <body>
     <header>
+        <div class="logo">FreeOnline<span class="logo-accent">Calculators</span>.me</div>
         <h1>Men's Biological Age Calculator</h1>
         <p>Calculate your biological age tailored specifically for men's health factors</p>
+        <nav aria-label="Breadcrumb">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="index.html" itemprop="item"><span itemprop="name">Home</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span aria-current="page" itemprop="name">Men's Biological Age Calculator</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ol>
+        </nav>
     </header>
 
     <main>
@@ -216,6 +259,7 @@
 
     <footer>
         <p><a href="index.html">Back to Home</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+        <p class="contact-info">Contact: <a href="mailto:contact@freeonlinecalculators.me">contact@freeonlinecalculators.me</a></p>
     </footer>
 
     <script>

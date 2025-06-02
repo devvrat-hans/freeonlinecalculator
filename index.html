@@ -7,8 +7,16 @@
     <meta name="keywords" content="free calculators, biological age calculator, tip calculator, restaurant tip, men's biological age, women's biological age, hairdresser tip, tattoo tip calculator">
     <title>Free Online Calculators | Bioage Calculators | Tip Calculators</title>
     <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #004d99;
+            --accent-color: #3399ff;
+            --light-bg: #f9f9f9;
+            --border-color: #ddd;
+            --footer-bg: #e9f0f9;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0 15px;
@@ -17,8 +25,39 @@
             color: #333;
         }
         header {
-            padding: 20px 0;
-            border-bottom: 1px solid #eee;
+            padding: 25px 0;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+            background-color: var(--light-bg);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .brand-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .brand-icon {
+            font-size: 2em;
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .logo-accent {
+            color: var(--accent-color);
+        }
+        .tagline {
+            font-style: italic;
+            color: #666;
+            margin-top: 0;
         }
         h1 {
             margin: 0;
@@ -40,22 +79,44 @@
             border-radius: 8px;
             padding: 25px;
             text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .calculator-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .calculator-box h2 {
-            color: #0066cc;
+            color: var(--primary-color);
         }
         footer {
-            margin-top: 30px;
-            padding: 20px 0;
-            border-top: 1px solid #eee;
+            margin-top: 40px;
+            padding: 25px 0;
+            border-top: 1px solid var(--border-color);
             text-align: center;
-            font-size: 0.9em;
+            font-size: 0.95em;
+            background-color: var(--footer-bg);
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+        }
+        .contact-info {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: white;
+            display: inline-block;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+        .contact-email {
+            font-weight: bold;
+            color: var(--primary-color);
         }
         a {
-            color: #0066cc;
+            color: var(--primary-color);
             text-decoration: none;
+            transition: color 0.2s;
         }
         a:hover {
+            color: var(--secondary-color);
             text-decoration: underline;
         }
         .featured-calculator {
@@ -77,10 +138,12 @@
             border-radius: 5px;
             font-weight: bold;
             margin-top: 15px;
+            transition: background-color 0.2s, transform 0.1s;
         }
         .btn:hover {
             background-color: #0052a3;
             text-decoration: none;
+            transform: translateY(-2px);
         }
 
         .calculator-category {
@@ -99,6 +162,12 @@
             border-radius: 5px;
             padding: 15px;
             background-color: #f9f9f9;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .subcategory-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         
         .subcategory-card h3 {
@@ -108,15 +177,19 @@
         
         .category-title {
             color: #333;
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 10px;
         }
     </style>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
 </head>
 <body>
     <header>
-        <h1>Free Online Calculators</h1>
-        <p>Simple, fast, and free calculators with no downloads required</p>
+        <div class="brand-container">
+            <span class="brand-icon">🧮</span>
+            <div class="logo">FreeOnline<span class="logo-accent">Calculators</span>.me</div>
+        </div>
+        <p class="tagline">Simple, fast, and free calculators with no downloads required</p>
     </header>
 
     <main>
@@ -202,6 +275,24 @@
                 </div>
                 
                 <div class="subcategory-card">
+                    <h3>Delivery Tip Calculator</h3>
+                    <p>Calculate appropriate tips for all types of delivery services based on order value and conditions.</p>
+                    <a href="delivery-tip-calculator.html">Calculate Delivery Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>DoorDash Tip Calculator</h3>
+                    <p>Calculate tips for food delivery services including DoorDash, Uber Eats, and Grubhub.</p>
+                    <a href="doordash-tip-calculator.html">Calculate DoorDash Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Uber Tip Calculator</h3>
+                    <p>Calculate appropriate tips for Uber, Lyft, and other rideshare services.</p>
+                    <a href="uber-tip-calculator.html">Calculate Uber Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
                     <h3>Tattoo Artist Tip Calculator</h3>
                     <p>Calculate fair tips for tattoo artists based on size, complexity, and session time.</p>
                     <a href="tattoo-tip-calculator.html">Calculate Tattoo Tips</a>
@@ -214,9 +305,99 @@
                 </div>
                 
                 <div class="subcategory-card">
+                    <h3>Nail Salon Tip Calculator</h3>
+                    <p>Calculate tips for manicures, pedicures, and other nail services.</p>
+                    <a href="nail-salon-tip-calculator.html">Calculate Nail Salon Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Dog Groomer Tip Calculator</h3>
+                    <p>Calculate tips for pet grooming services based on service type, complexity, and quality.</p>
+                    <a href="dog-groomer-tip-calculator.html">Calculate Dog Groomer Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Pizza Tip Calculator</h3>
+                    <p>Calculate tips for pizza delivery and dine-in orders based on order size and service quality.</p>
+                    <a href="pizza-tip-calculator.html">Calculate Pizza Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>20% Tip Calculator</h3>
+                    <p>Quick standard 20% tip calculations for restaurants and services.</p>
+                    <a href="20-tip-calculator.html">Calculate 20% Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Tax and Tip Calculator</h3>
+                    <p>Calculate both sales tax and tips in one place for accurate bill totals.</p>
+                    <a href="tax-and-tip-calculator.html">Calculate Tax and Tip</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Simple Tip Calculator</h3>
+                    <p>Quick and easy calculator for determining tips with minimal inputs.</p>
+                    <a href="simple-tip-calculator.html">Use Simple Tip Calculator</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>EZ Tip Calculator</h3>
+                    <p>The fastest and simplest way to calculate tips without complexity.</p>
+                    <a href="ez-tip-calculator.html">Use EZ Tip Calculator</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Free Tip Calculator</h3>
+                    <p>100% Free tip calculator with no ads or signup requirements.</p>
+                    <a href="free-tip-calculator.html">Use Free Tip Calculator</a>
+                </div>
+                
+                <div class="subcategory-card">
                     <h3>iPhone-Style Tip Calculator</h3>
                     <p>Calculate tips with an iOS-inspired interface that's simple, clean, and easy to use.</p>
                     <a href="tip-calculator-iphone.html">Calculate Tips (iPhone Style)</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Pizza Delivery Tip Calculator</h3>
+                    <p>Calculate appropriate tips for pizza delivery services based on order size, distance, and weather conditions.</p>
+                    <a href="pizza-delivery-tip-calculator.html">Calculate Pizza Delivery Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Grocery Delivery Tip Calculator</h3>
+                    <p>Calculate tips for grocery delivery services based on order value, number of items, and delivery challenges.</p>
+                    <a href="grocery-delivery-tip-calculator.html">Calculate Grocery Delivery Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Furniture Delivery Tip Calculator</h3>
+                    <p>Calculate appropriate tips for furniture deliveries based on item size, assembly needs, and delivery complexity.</p>
+                    <a href="furniture-delivery-tip-calculator.html">Calculate Furniture Delivery Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Catering Delivery Tip Calculator</h3>
+                    <p>Calculate tips for catering deliveries based on order size, setup requirements, and staff count.</p>
+                    <a href="catering-delivery-tip-calculator.html">Calculate Catering Delivery Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Food Delivery Tip Calculator</h3>
+                    <p>Calculate appropriate tips for food delivery services from restaurants and delivery apps.</p>
+                    <a href="food-delivery-tip-calculator.html">Calculate Food Delivery Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>Chinese Delivery Tip Calculator</h3>
+                    <p>Calculate tips specifically for Chinese food deliveries based on order size and special requests.</p>
+                    <a href="chinese-delivery-tip-calculator.html">Calculate Chinese Delivery Tips</a>
+                </div>
+                
+                <div class="subcategory-card">
+                    <h3>NYC Delivery Tip Calculator</h3>
+                    <p>Calculate appropriate tips for deliveries in New York City based on borough and unique NYC challenges.</p>
+                    <a href="nyc-delivery-tip-calculator.html">Calculate NYC Delivery Tips</a>
                 </div>
             </div>
             
@@ -226,6 +407,7 @@
 
     <footer>
         <p>&copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me | All calculators are free to use and provided as-is without warranty.</p>
+        <p class="contact-info">Need help? <span class="contact-email">Email: <a href="mailto:contact@freeonlinecalculators.me">contact@freeonlinecalculators.me</a></span></p>
     </footer>
 </body>
 </html>

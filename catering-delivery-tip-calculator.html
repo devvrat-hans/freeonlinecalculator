@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online catering delivery tip calculator. Calculate appropriate tips for catering deliveries based on order size, setup requirements, and service quality.">
+    <meta name="keywords" content="catering tip calculator, catering delivery tip, event catering gratuity, food service tip, catering staff tip, free online calculator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freeonlinecalculator.me/catering-delivery-tip-calculator.html">
+    <meta property="og:title" content="Catering Delivery Tip Calculator | Free Online Calculator">
+    <meta property="og:description" content="Free online catering delivery tip calculator. Calculate appropriate tips for catering deliveries based on order size, setup requirements, and service quality.">
+    <meta property="og:url" content="https://freeonlinecalculator.me/catering-delivery-tip-calculator.html">
+    <meta property="og:type" content="website">
+    <title>Catering Delivery Tip Calculator | Free Online Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+        }
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .calculator {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0052a3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none;
+        }
+        .tip-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .tip-option {
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            flex: 1;
+            min-width: 70px;
+        }
+        .tip-option:hover {
+            background-color: #e0e0e0;
+        }
+        .tip-option.selected {
+            background-color: #0066cc;
+            color: white;
+            border-color: #0052a3;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .result-table th, .result-table td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .checkbox-group {
+            margin-top: 5px;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .radio-label input {
+            width: auto;
+            margin-right: 5px;
+        }
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Catering Delivery Tip Calculator</h1>
+        <p>Calculate appropriate tips for catering deliveries and setup services</p>
+        <nav aria-label="Breadcrumb">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="index.html" itemprop="item"><span itemprop="name">Home</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span aria-current="page" itemprop="name">Catering Delivery Tip Calculator</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ol>
+        </nav>
+    </header>
+
+    <main>
+        <section class="calculator">
+            <p>This calculator helps you determine appropriate tips for catering deliveries based on order value, guest count, setup requirements, and service complexity.</p>
+            
+            <div class="form-group">
+                <label for="orderType">Catering Service Type:</label>
+                <select id="orderType">
+                    <option value="dropoff">Simple Drop-Off (No Setup)</option>
+                    <option value="basic">Basic Setup (Minimal Arrangement)</option>
+                    <option value="full">Full Setup (Complete Arrangement)</option>
+                    <option value="staffed">Staffed Event (Servers/Attendants)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="orderValue">Order Total ($):</label>
+                <input type="number" id="orderValue" placeholder="Enter order value" min="0" step="0.01">
+            </div>
+            
+            <div class="form-group">
+                <label for="guestCount">Number of Guests:</label>
+                <input type="number" id="guestCount" placeholder="Enter guest count" min="1" step="1">
+            </div>
+            
+            <div class="form-group">
+                <label for="staffCount">Number of Catering Staff:</label>
+                <select id="staffCount">
+                    <option value="1">1 Person (Delivery Only)</option>
+                    <option value="2">2 People</option>
+                    <option value="3">3-4 People</option>
+                    <option value="5">5+ People</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Additional Services:</label>
+                <div class="checkbox-group">
+                    <label class="radio-label"><input type="checkbox" id="hotFood"> Hot Food Handling</label>
+                </div>
+                <div class="checkbox-group">
+                    <label class="radio-label"><input type="checkbox" id="equipment"> Equipment Setup (Chafing Dishes, etc.)</label>
+                </div>
+                <div class="checkbox-group">
+                    <label class="radio-label"><input type="checkbox" id="specialHandling"> Special Dietary Accommodations</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Delivery Location Difficulty:</label>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="difficulty" value="easy" checked> Easy Access</label>
+                    <label class="radio-label"><input type="radio" name="difficulty" value="medium"> Moderate Difficulty</label>
+                    <label class="radio-label"><input type="radio" name="difficulty" value="hard"> Difficult Access (Stairs, Far Carry)</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Tip Calculation Method:</label>
+                <div class="tip-options">
+                    <div class="tip-option" id="tip-percent" onclick="selectTipType('percent')">Percentage</div>
+                    <div class="tip-option" id="tip-flat" onclick="selectTipType('flat')">Flat Amount</div>
+                    <div class="tip-option" id="tip-perstaff" onclick="selectTipType('perstaff')">Per Staff</div>
+                </div>
+            </div>
+            
+            <div id="percent-options" class="tip-options" style="display: none;">
+                <div class="tip-option" id="percent-10" onclick="selectPercentTip(10)">10%</div>
+                <div class="tip-option" id="percent-15" onclick="selectPercentTip(15)">15%</div>
+                <div class="tip-option" id="percent-18" onclick="selectPercentTip(18)">18%</div>
+                <div class="tip-option" id="percent-20" onclick="selectPercentTip(20)">20%</div>
+                <div class="tip-option" id="percent-custom">
+                    <input type="number" id="customPercentTip" placeholder="Custom %" min="0" max="100" oninput="customPercentTipSelected()" style="width: 80%">
+                </div>
+            </div>
+            
+            <div id="flat-options" class="tip-options" style="display: none;">
+                <div class="tip-option" id="flat-20" onclick="selectFlatTip(20)">$20</div>
+                <div class="tip-option" id="flat-50" onclick="selectFlatTip(50)">$50</div>
+                <div class="tip-option" id="flat-100" onclick="selectFlatTip(100)">$100</div>
+                <div class="tip-option" id="flat-150" onclick="selectFlatTip(150)">$150</div>
+                <div class="tip-option" id="flat-custom">
+                    <input type="number" id="customFlatTip" placeholder="Custom $" min="0" oninput="customFlatTipSelected()" style="width: 80%">
+                </div>
+            </div>
+            
+            <div id="perstaff-options" class="tip-options" style="display: none;">
+                <div class="tip-option" id="staff-10" onclick="selectPerStaffTip(10)">$10/person</div>
+                <div class="tip-option" id="staff-20" onclick="selectPerStaffTip(20)">$20/person</div>
+                <div class="tip-option" id="staff-30" onclick="selectPerStaffTip(30)">$30/person</div>
+                <div class="tip-option" id="staff-50" onclick="selectPerStaffTip(50)">$50/person</div>
+                <div class="tip-option" id="staff-custom">
+                    <input type="number" id="customStaffTip" placeholder="Custom $/person" min="0" oninput="customPerStaffTipSelected()" style="width: 80%">
+                </div>
+            </div>
+            
+            <button onclick="calculateTip()">Calculate Tip</button>
+            
+            <div id="result" class="result">
+                <h3>Catering Delivery Tip Calculation</h3>
+                <table class="result-table">
+                    <tr>
+                        <th>Order Total:</th>
+                        <td id="resultOrderValue">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Base Tip:</th>
+                        <td id="resultBaseTip">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Service Adjustment:</th>
+                        <td id="resultServiceAdjustment">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Difficulty Adjustment:</th>
+                        <td id="resultDifficultyAdjustment">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Total Recommended Tip:</th>
+                        <td id="resultTotalTip">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Tip Per Staff Member:</th>
+                        <td id="resultPerStaff">$0.00</td>
+                    </tr>
+                    <tr>
+                        <th>Total with Tip:</th>
+                        <td id="resultTotal">$0.00</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Catering Delivery Tipping Guide</h2>
+            <p>When tipping catering delivery staff, consider these industry standards:</p>
+            <ul>
+                <li><strong>Drop-Off Only:</strong> 10% of the total bill or $5-$10 per delivery person</li>
+                <li><strong>Basic Setup:</strong> 15% of the total bill or $10-$20 per staff member</li>
+                <li><strong>Full Setup:</strong> 15-18% of the total bill or $20-$30 per staff member</li>
+                <li><strong>Staffed Events:</strong> 18-20% of the total bill (if gratuity not already included)</li>
+                <li><strong>Complex Orders:</strong> Consider higher percentages for large guest counts or special accommodations</li>
+                <li><strong>Delivery Difficulty:</strong> Add extra for difficult access locations or bad weather</li>
+            </ul>
+            <p>Note: Many catering services include a service charge (often 15-20%) in the bill, but this may not all go to the staff. Check if gratuity is already included before adding additional tip.</p>
+        </section>
+        
+        <section>
+            <h2>Understanding Catering Service Fees vs. Tips</h2>
+            <p>It's important to understand the difference between service fees and gratuities:</p>
+            <ul>
+                <li><strong>Service Fee/Charge:</strong> Often retained partly or entirely by the catering company to cover operational costs</li>
+                <li><strong>Delivery Fee:</strong> Typically covers transportation costs and doesn't go directly to delivery staff</li>
+                <li><strong>Gratuity/Tip:</strong> Goes directly to the staff members who handled your order</li>
+            </ul>
+            <p>When in doubt, ask the catering company how their fees are distributed and if gratuity is already included in your bill.</p>
+        </section>
+        
+        <section>
+            <h2>When to Tip Catering Staff</h2>
+            <p>Different catering services may warrant different tipping approaches:</p>
+            <ul>
+                <li><strong>On-Site Staff:</strong> Tip at the end of the event, in cash if possible</li>
+                <li><strong>Delivery Only:</strong> Tip at the time of delivery</li>
+                <li><strong>Setup and Return:</strong> Consider splitting the tip, with some at setup and the rest at cleanup</li>
+                <li><strong>Multiple-Day Events:</strong> Consider tipping daily rather than one lump sum at the end</li>
+                <li><strong>Large Events:</strong> For weddings or corporate events, designate someone to handle tipping</li>
+            </ul>
+            <p>Cash tips are preferred as they can be distributed immediately to the staff who served you.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="index.html">Back to Home</a> | <a href="sitemap.xml">Sitemap</a> | &copy; <script>document.write(new Date().getFullYear())</script> FreeOnlineCalculators.me</p>
+    </footer>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Catering Delivery Tip Calculator",
+      "url": "https://freeonlinecalculator.me/catering-delivery-tip-calculator.html",
+      "description": "Free online catering delivery tip calculator. Calculate appropriate tips for catering deliveries based on order size, setup requirements, and service quality.",
+      "applicationCategory": "FinanceApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script>
+        // Global variables
+        let selectedTipType = 'percent';
+        let selectedPercentTip = 15;
+        let selectedFlatTip = 50;
+        let selectedPerStaffTip = 20;
+        
+        // Function to format number to 2 decimal places
+        function formatMoney(number) {
+            return '$' + parseFloat(number).toFixed(2);
+        }
+        
+        // Function to select tip type
+        function selectTipType(type) {
+            // Clear previous selection
+            document.querySelectorAll('#tip-percent, #tip-flat, #tip-perstaff').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Hide all tip option groups
+            document.getElementById('percent-options').style.display = 'none';
+            document.getElementById('flat-options').style.display = 'none';
+            document.getElementById('perstaff-options').style.display = 'none';
+            
+            // Select new type and show proper options
+            document.getElementById('tip-' + type).classList.add('selected');
+            document.getElementById(type + '-options').style.display = 'flex';
+            selectedTipType = type;
+            
+            // Select default option in the newly shown group
+            if (type === 'percent') {
+                selectPercentTip(selectedPercentTip);
+            } else if (type === 'flat') {
+                selectFlatTip(selectedFlatTip);
+            } else if (type === 'perstaff') {
+                selectPerStaffTip(selectedPerStaffTip);
+            }
+        }
+        
+        // Functions to select specific tip values
+        function selectPercentTip(percent) {
+            document.querySelectorAll('#percent-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            if (percent !== 'custom') {
+                document.getElementById('percent-' + percent).classList.add('selected');
+                selectedPercentTip = percent;
+                document.getElementById('customPercentTip').value = '';
+            }
+        }
+        
+        function selectFlatTip(amount) {
+            document.querySelectorAll('#flat-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            if (amount !== 'custom') {
+                document.getElementById('flat-' + amount).classList.add('selected');
+                selectedFlatTip = amount;
+                document.getElementById('customFlatTip').value = '';
+            }
+        }
+        
+        function selectPerStaffTip(amount) {
+            document.querySelectorAll('#perstaff-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            if (amount !== 'custom') {
+                document.getElementById('staff-' + amount).classList.add('selected');
+                selectedPerStaffTip = amount;
+                document.getElementById('customStaffTip').value = '';
+            }
+        }
+        
+        // Functions for custom tip entry
+        function customPercentTipSelected() {
+            document.querySelectorAll('#percent-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.getElementById('percent-custom').classList.add('selected');
+            selectedPercentTip = parseFloat(document.getElementById('customPercentTip').value) || 0;
+        }
+        
+        function customFlatTipSelected() {
+            document.querySelectorAll('#flat-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.getElementById('flat-custom').classList.add('selected');
+            selectedFlatTip = parseFloat(document.getElementById('customFlatTip').value) || 0;
+        }
+        
+        function customPerStaffTipSelected() {
+            document.querySelectorAll('#perstaff-options .tip-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.getElementById('staff-custom').classList.add('selected');
+            selectedPerStaffTip = parseFloat(document.getElementById('customStaffTip').value) || 0;
+        }
+        
+        // Initialize the calculator
+        document.addEventListener('DOMContentLoaded', function() {
+            selectTipType('percent');
+            selectPercentTip(15);
+        });
+        
+        // Calculate tip based on inputs
+        function calculateTip() {
+            // Get input values
+            const orderValue = parseFloat(document.getElementById('orderValue').value) || 0;
+            const guestCount = parseInt(document.getElementById('guestCount').value) || 0;
+            const orderType = document.getElementById('orderType').value;
+            
+            // Get staff count value
+            let staffCountValue = document.getElementById('staffCount').value;
+            let staffCount = 1;
+            
+            if (staffCountValue === '1') staffCount = 1;
+            else if (staffCountValue === '2') staffCount = 2;
+            else if (staffCountValue === '3') staffCount = 3;
+            else if (staffCountValue === '5') staffCount = 5;
+            
+            // Get additional services
+            const hotFood = document.getElementById('hotFood').checked;
+            const equipment = document.getElementById('equipment').checked;
+            const specialHandling = document.getElementById('specialHandling').checked;
+            
+            // Get delivery difficulty
+            let difficulty = 'easy';
+            document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
+                if (radio.checked) {
+                    difficulty = radio.value;
+                }
+            });
+            
+            // Calculate base tip based on selected tip type
+            let baseTip = 0;
+            
+            if (selectedTipType === 'percent') {
+                baseTip = (orderValue * selectedPercentTip) / 100;
+            } else if (selectedTipType === 'flat') {
+                baseTip = selectedFlatTip;
+            } else if (selectedTipType === 'perstaff') {
+                baseTip = selectedPerStaffTip * staffCount;
+            }
+            
+            // Apply minimums based on order type
+            if (orderType === 'dropoff' && baseTip < 10) baseTip = 10;
+            if (orderType === 'basic' && baseTip < 20) baseTip = 20;
+            if (orderType === 'full' && baseTip < 40) baseTip = 40;
+            if (orderType === 'staffed' && baseTip < 60) baseTip = 60;
+            
+            // Calculate service adjustment based on additional services
+            let serviceAdjustment = 0;
+            
+            if (hotFood) serviceAdjustment += 10;
+            if (equipment) serviceAdjustment += 15;
+            if (specialHandling) serviceAdjustment += 10;
+            
+            // Guest count adjustments
+            if (guestCount > 50) {
+                serviceAdjustment += Math.min(50, (guestCount - 50) * 0.2);  // $0.20 per guest over 50, up to $50 max
+            }
+            
+            // Calculate difficulty adjustment
+            let difficultyAdjustment = 0;
+            
+            if (difficulty === 'medium') difficultyAdjustment += 15;
+            if (difficulty === 'hard') difficultyAdjustment += 30;
+            
+            // Calculate total tip
+            const totalTip = baseTip + serviceAdjustment + difficultyAdjustment;
+            const tipPerStaff = staffCount > 0 ? totalTip / staffCount : totalTip;
+            const total = orderValue + totalTip;
+            
+            // Display results
+            document.getElementById('resultOrderValue').textContent = formatMoney(orderValue);
+            
+            if (selectedTipType === 'percent') {
+                document.getElementById('resultBaseTip').textContent = formatMoney(baseTip) + ' (' + selectedPercentTip + '%)';
+            } else {
+                document.getElementById('resultBaseTip').textContent = formatMoney(baseTip);
+            }
+            
+            document.getElementById('resultServiceAdjustment').textContent = formatMoney(serviceAdjustment);
+            document.getElementById('resultDifficultyAdjustment').textContent = formatMoney(difficultyAdjustment);
+            document.getElementById('resultTotalTip').textContent = formatMoney(totalTip);
+            document.getElementById('resultPerStaff').textContent = formatMoney(tipPerStaff) + ' × ' + staffCount + ' staff';
+            document.getElementById('resultTotal').textContent = formatMoney(total);
+            
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
